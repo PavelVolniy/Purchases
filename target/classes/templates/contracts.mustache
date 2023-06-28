@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contracts</title>
+    <style>
+        td{
+            border: 1px solid #333;
+        }
+        tr{
+            background-color: rgb(199, 209, 185);
+        }
+        b{
+            background-color: #50c7b7;
+        }
+        table{
+            width: 100%;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/delContract" method="post">
+        {{#contracts}}
+            <table title="Contracts list">
+                <tr>
+                    <td style="width: 0px;">{{id}}</td>
+                    <td >{{nameContract}}</td>
+                    <td style="width: 100px;"><i>{{dateTo}}</i></td>
+                    <td style="width: 100px;"><i>{{dateFrom}}</i></td>
+                    <td style="width: 120px; text-align: end;"><b>{{price}}</b></td>
+                    <td style="width: 15px; align-content: right;"><button type="submit" >dell</button></td>
+                </tr>
+            </table>
+        {{/contracts}}
+    </form>
+    <br>
+    <div><a href="/addContract" >Add new contract</a> or <a href="/main">main page</a></div>
+    <br>
+    <form action="/clearContractList" method="get">
+        <input name="clear list of contracts" type="submit" value="Clear list">
+    </form>
+
+</body>
+</html>

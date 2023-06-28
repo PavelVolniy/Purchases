@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User list</title>
+    <style>
+        b{
+            color: green;
+            text-align: left;
+        }
+        f{
+            color: rgb(83, 88, 32);
+            font-size: large;
+            text-align: left;
+        }
+        input{
+            border-radius: 3px;
+        }
+        table{
+            width: 100%;
+            background-color: rgb(219, 216, 216);
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        .id{
+            text-align: left;
+            width: 5%;
+        }
+        .password{
+            text-align: left;
+            width: 15%;
+        }
+        .role{
+            text-align: left;
+            width: 30%;
+        }
+        .acrive{
+            text-align: left;
+            width: 10%S;
+        }
+        .name{
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div>
+    List of users
+</div>
+            <table>
+                {{#userList}}
+                <tr><th class="id"><b >id- </b> <f>{{id}}</f></th>
+                    <th class="name"><b >name - </b> <f>{{username}}</f></th>
+                    <th class="password"><b >password - </b> <f>{{password}}</f></th>
+                    <th class="role"><b >role - </b><f>{{roles}}</f></th>
+                    <th class="active"><b >active - </b> <f>{{active}}</f></th>
+                    <td><a href="/user/{{id}}">edit</a></td>
+                </tr>
+                {{/userList}}        
+            </table>
+            <br>
+<form action="/user/del" method="post" style="text-align: center;">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <div><label>username: <input type="text" name="username"></label></div>
+    <div><input style="margin-top: 5px;" type="submit" value="Delete user"></div>
+    <br> <a href="main">Main page</a>
+</form>
+
+</body>
+</html>

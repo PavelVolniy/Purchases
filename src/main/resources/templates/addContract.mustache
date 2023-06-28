@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>addContract</title>
+    <style>
+        input:invalid{
+            border: 2px solid red;
+        }
+        input:valid{
+            border: 2px solid black;
+        }
+        
+
+
+
+    </style>
+</head>
+<body>
+<form action="/addContract" method="post" style="margin-top: 10%;">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+
+    <table border="1" align="center" style="text-align: left;">
+        <tr>
+            {{#names}}
+                <th>{{.}}</th>
+            {{/names}}
+        </tr>
+
+
+            <tr>
+        {{#contractList}}
+                <th>
+                    {{.}}
+                </th>
+        {{/contractList}}
+            </tr>
+
+
+
+    </table>
+
+    <!--    <table border="1" align="center" style="text-align: left;">-->
+    <!--        <tr>-->
+    <!--            <th>Филиал</th>-->
+    <!--            <th>Наименование</th>-->
+    <!--            <th>ПП ПОЗ с ЕП</th>-->
+    <!--            <th>Вид закупки</th>-->
+    <!--            <th>№ Договора</th>-->
+    <!--            <th>Дата договора</th>-->
+    <!--            <th>Сумма</th>-->
+    <!--            <th>Дата исполнения договора</th>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--                <th><input type="text" disabled="true" value="some text" name="branch" minlength="2" maxlength="100"></th>-->
+    <!--                <th><input type="text" required="true" name="contractName"></th>-->
+    <!--                <th><input type="text" name="ppPozOfEp"></th>-->
+    <!--                <th><input type="text" name="typeOfPurchase"></th>-->
+    <!--                <th><input type="text" name="numberOfContract"></th>-->
+    <!--                <th><input type="date" name="dateOfContract"></th>-->
+    <!--                <th><input type="number" name="sumOfContract" step="0.01" min="0"></th>-->
+    <!--                <th><input type="date" name="dateOfExecutionOfContract"></th>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--            <th>Наименование поставщика</th>-->
+    <!--            <th>ИНН поставщика</th>-->
+    <!--            <th>Тип предприятия</th>-->
+    <!--            <th>№ реестровой записи</th>-->
+    <!--            <th>Доп соглашение</th>-->
+    <!--            <th>ОКПД 2</th>-->
+    <!--            <th>Ф.И.О.</th>-->
+    <!--            <th></th>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--            <th><input type="text" name="nameOfSupplier" min="2"></th>-->
+    <!--            <th><input type="number" name="INNofSupplier"></th>-->
+    <!--            <th><input type="text" name="typeOfCompany"></th>-->
+    <!--            <th><input type="number" name="numberOfRegistry"></th>-->
+    <!--            <th><input type="text" name="additionalAgreement"></th>-->
+    <!--            <th><input type="text" name="OKPD2"></th>-->
+    <!--            <th><input type="text" name="FIO"></th>-->
+    <!--            <th><input type="submit" value="add contract"></th>-->
+    <!--        </tr>-->
+    <!--    </table>-->
+
+</body>
+</html>
