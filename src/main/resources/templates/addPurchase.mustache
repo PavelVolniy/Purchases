@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current purchase</title>
+    <style>
+                input:invalid{
+            border: 2px solid red;
+        }
+        input:valid{
+            border: 2px solid black;
+        }
+input{
+    text-align: left;
+}
+
+    </style>
+</head>
+<body>
+<form action="/addPurchase" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <table border="1" align="center" style="text-align: left; margin-top: 10%;">
+        <tr>
+            <th>Филиал</th>
+            <th>Наименование</th>
+            <th>Тип</th>
+            <th>Состоялось</th>
+            <th>Дата размещения</th>
+            <th>Дата окончания</th>
+            <th>Дата рассмотрения</th>
+            <th>№ Договора</th>
+            <th>Начальная цена</th>
+        </tr>
+        <tr>
+            <th><input type="text" name="branch" required="true"></th>
+            <th><input type="text" name="namePurchase" required="true"></th>
+            <th><input type="text" name="typeOfPurchase"></th>
+            <th><input type="checkbox" name="conditionOfPurchase"></th>
+            <th><input type="date" name="dateOfPlacement" required="true"></th>
+            <th><input type="date" name="dateOfEnd" required="true"></th>
+            <th><input type="date" name="dateOfReview" required="true"></th>
+            <th><input type="text" name="numberOfContract" required="true"></th>
+            <th><input type="number" step="0.01" name="startPrice" required="true"></th>
+        </tr>
+        <tr>
+            <th>Заявок подано</th>
+            <th>Заявок допущ.</th>
+            <th>Цена заявок 1</th>
+            <th>Цена заявок 2</th>
+            <th>Разница значений</th>
+            <th>Цена договора</th>
+            <th>Экономия</th>
+            <th>№ процедуры на еис</th>
+            </th>
+        </tr>
+        <tr>
+            <th><input type="number" name="applicationSubmitted"></th>
+            <th><input type="number" name="applicationAdmitted"></th>
+            <th><input type="number" step="0.01" name="priceApplicationOne"></th>
+            <th><input type="number" step="0.01" name="priceApplicationTwo"></th>
+            <th><input type="number" step="0.01" name="differenceValues"></th>
+            <th><input type="number" step="0.01" name="priceOfContract"></th>
+            <th><input type="number" step="0.01" name="economy"></th>
+            <th><input type="number" name="numberOfProcedureOnEIS"></th>
+            <td><input type="submit" value="Сохранить"></td>
+        </tr>
+    </table>
+
+    {{#errorMessage}}
+    <script>
+          alert("{{errorMessage}}");
+    </script>
+    {{/errorMessage}}
+
+</form>
+</body>
+</html>

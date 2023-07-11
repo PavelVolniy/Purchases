@@ -20,6 +20,13 @@
                 <label><input type="checkbox" name="{{.}}" > {{.}} </label>
             {{/roleList}}
         </div>
+        <div>
+            {{#branches}}
+            <i>
+                <input type="radio" name="{{.}}"> {{.}}
+            </i>
+            {{/branches}}
+        </div>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <button type="submit">save</button>
     {{/user}}

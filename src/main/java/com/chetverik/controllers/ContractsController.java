@@ -1,9 +1,13 @@
 package com.chetverik.controllers;
 
-import com.chetverik.domain.Contract;
+import com.chetverik.components.IAuthenticationFacade;
+import com.chetverik.domain.contract.Branch;
+import com.chetverik.domain.contract.Contract;
+import com.chetverik.domain.contract.ContractFieldNames;
+import com.chetverik.domain.user.User;
+import com.chetverik.repositories.BranchRepo;
 import com.chetverik.repositories.ContractRepository;
-import com.chetverik.service.CheckedContractFields;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.chetverik.repositories.UserRepo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,20 +17,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ContractsController {
-
-    @Autowired
     private ContractRepository contractRepository;
+    private BranchRepo branchRepo;
+    private IAuthenticationFacade authenticationFacade;
+    private UserRepo userRepo;
+
+    public ContractsController(ContractRepository contractRepository,
+                               BranchRepo branchRepo,
+                               IAuthenticationFacade authenticationFacade,
+                               UserRepo userRepo) {
+        this.contractRepository = contractRepository;
+        this.branchRepo = branchRepo;
+        this.authenticationFacade = authenticationFacade;
+        this.userRepo = userRepo;
+    }
 
     @GetMapping("/contracts")
     public String getContractsList(Model model) {
         Iterable<Contract> contracts = contractRepository.findAll();
+        for (Contract item :contracts) {System.out.println(item);}
+        model.addAttribute("names", ContractFieldNames.getContractNames());
         model.addAttribute("contracts", contracts);
         return "contracts";
     }
 
     @GetMapping("/addContract")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String addContractForm() {
+    public String addContractForm(Model model) {
+        model.addAttribute("names", ContractFieldNames.getContractNames());
+        model.addAttribute("contractList", ContractFieldNames.getContractNames());
         return "addContract";
     }
 
@@ -34,20 +53,43 @@ public class ContractsController {
     @PostMapping("/addContract")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addContract(
-            @RequestParam String contractName,
-            @RequestParam String dateTo,
-            @RequestParam String dateFrom,
-            @RequestParam Double price,
+            @RequestParam String branch,
+            @RequestParam String nameOfContract,
+            @RequestParam String pp_poz_ep,
+            @RequestParam String typeOfPurchase,
+            @RequestParam String numberOfContract,
+            @RequestParam String dateOfContract,
+            @RequestParam Double sum,
+            @RequestParam String dateOfExecutionContract,
+            @RequestParam String nameOfSupplier,
+            @RequestParam String innOfSupplier,
+            @RequestParam String typeOfCompany,
+            @RequestParam String numberOfRegistryEntry,
+            @RequestParam String additionalAgreement,
+            @RequestParam String okdp2,
+            @RequestParam String f_i_o,
             Model model
     ) {
-        if (contractName != null && !contractName.isEmpty() &&
-                dateTo != null && dateFrom != null) {
-            Contract contract = new Contract(contractName, dateTo, dateFrom, price);
-            System.out.println(contract);
-            if (CheckedContractFields.check(contract)) {
-                contractRepository.save(contract);
-            }
-        }
+        Contract newContract;
+        String userName = authenticationFacade.getAuthentication().getName();
+        User currentUser = userRepo.findByUsername(userName);
+            newContract = new Contract(
+                    currentUser.getBranch(),
+                    nameOfContract,
+                    pp_poz_ep,
+                    typeOfPurchase,
+                    numberOfContract,
+                    dateOfContract,
+                    sum,
+                    dateOfExecutionContract,
+                    nameOfSupplier,
+                    innOfSupplier,
+                    typeOfCompany,
+                    numberOfRegistryEntry,
+                    additionalAgreement,
+                    okdp2,
+                    f_i_o);
+        contractRepository.save(newContract);
         return "redirect:/contracts";
     }
 

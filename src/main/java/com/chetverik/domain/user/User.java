@@ -1,6 +1,8 @@
-package com.chetverik.domain;
+package com.chetverik.domain.user;
 
 
+import com.chetverik.domain.Branches;
+import com.chetverik.domain.contract.Branch;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,19 +18,35 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
-    private boolean active = false;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @ElementCollection(targetClass = Branches.class, fetch = FetchType.EAGER)
+    @OneToOne()
+    private Branch branch;
+
+    private boolean active = false;
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, Set<Role> roles, Branch branch, boolean active) {
         this.username = username;
         this.password = password;
+        this.roles = roles;
+        this.branch = branch;
+        this.active = active;
     }
 
     public Long getId() {

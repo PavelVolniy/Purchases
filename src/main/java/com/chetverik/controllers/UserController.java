@@ -1,14 +1,18 @@
 package com.chetverik.controllers;
 
-import com.chetverik.domain.Role;
-import com.chetverik.domain.User;
+import com.chetverik.domain.user.Role;
+import com.chetverik.domain.user.User;
+import com.chetverik.repositories.BranchRepo;
 import com.chetverik.repositories.UserRepo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -17,13 +21,15 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private UserRepo userRepo;
+    private BranchRepo branchRepo;
 
-    public UserController(UserRepo userRepo) {
+    public UserController(UserRepo userRepo, BranchRepo branchRepo) {
         this.userRepo = userRepo;
+        this.branchRepo = branchRepo;
     }
 
     @GetMapping
-    public String userList(Model model) {
+    public String getUserKList(Model model){
         model.addAttribute("userList", userRepo.findAll());
         return "userList";
     }
@@ -34,6 +40,7 @@ public class UserController {
         Iterable<User> user = userRepo.findAllById(Collections.singleton(userId));
         model.addAttribute("user", user);
         model.addAttribute("roleList", Role.values());
+        model.addAttribute("branches", branchRepo.findAll());
         return "userEdit";
     }
 

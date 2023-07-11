@@ -1,7 +1,7 @@
 package com.chetverik.repositories;
 
 
-import com.chetverik.domain.User;
+import com.chetverik.domain.user.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepo extends CrudRepository<User, Long> {

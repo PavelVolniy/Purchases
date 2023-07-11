@@ -5,52 +5,27 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Massages</title>
+    <title>Main page</title>
 </head>
 <body>
-<span><a href="/user">User list</a></span>
+
+{{#username}}
+    <p>
+        {{username}}
+    </p>
+{{/username}}
 <div>
-    <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <input type="submit" value="Sign Out">
-    </form>
-    <form action="/delMessage" method="get">
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <input type="submit" value="clear list">
-    </form>
+    {{#admin}}
+        <a href="/user">User list</a>
+        <a href="/settings">Settings</a>
+    {{/admin}}
 </div>
-<div>
-    <form method="post" enctype="multipart/form-data">
+    <form action="/logout" method="post"  style="text-align: right; margin-top: 1%; margin-right: 1%;">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <input type="text" name="text" placeholder="Enter message">
-        <input type="file" name="file">
-        <input type="text" name="tag" placeholder="tag">
-        <button type="submit">add</button>
+        <input type="submit" value="Выход">
     </form>
-    <form method="post" action="filter">
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <input type="text" name="filter">
-        <button type="submit">find</button>
-    </form>
-</div>
-<div>
-    {{#listname}}
-        {{listname}}
-    {{/listname}}
-</div>
-{{#messages}}
-    <div style="/static/style.css">
-        <b>{{id}}</b>
-        <span>{{text}}</span>
-        <i>{{tag}}</i>
-        <strong>{{authorName}}</strong>
-        <div>
-            {{#img}}
-                <img src="/img/{{img}}">
-            {{/img}}
-        </div>
-    </div>
-{{/messages}}
-<div><a href="/contracts">list contracts</a></div>
+
+
+<form style="text-align: center; margin-top: 8%;"><a href="/contracts"><h2>Договора</h2></a> <a href="/purchase"><h2>Закупки</h2></a></form>
 </body>
 </html>

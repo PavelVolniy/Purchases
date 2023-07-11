@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>purchase</title>
+    <style>
+    th{
+            border: 1px solid #333;
+        }
+        tr{
+            background-color: rgb(199, 209, 185);
+        }
+        b{
+            background-color: #50c7b7;
+        }
+        table{
+            width: 100%;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+
+
+
+    </style>
+
+</head>
+<body>
+<a href="/main">Main page</a>
+<table>
+    <tr>
+        {{#names}}
+            <th>
+                {{.}}
+            </th>
+        {{/names}}
+    </tr>
+
+    {{#purchases}}
+        <tr>
+            <th class="branch"><b>{{branch}}</b></th>
+            <th class="namePurchase"><b>{{namePurchase}}</b></th>
+            <th class="typeOfPurchase"><b>{{typeOfPurchase}}</b></th>
+            <th class="conditionOfPurchase"><b>{{conditionOfPurchase}}</b></th>
+            <th class="dateOfPlacement"><b>{{dateOfPlacement}}</b></th>
+            <th class="dateOfEnd"><b>{{dateOfEnd}}</b></th>
+            <th class="dateOfReview"><b>{{dateOfReview}}</b></th>
+            <th class="numberOfContract"><b>{{numberOfContract}}</b></th>
+            <th class="startPrice"><b>{{startPrice}}</b></th>
+            <th class="applicationSubmitted"><b>{{applicationSubmitted}}</b></th>
+            <th class="applicationAdmitted"><b>{{applicationAdmitted}}</b></th>
+            <th class="priceApplicationOne"><b>{{priceApplicationOne}}</b></th>
+            <th class="priceApplicationTwo"><b>{{priceApplicationTwo}}</b></th>
+            <th class="differenceValues"><b>{{differenceValues}}</b></th>
+            <th class="priceOfContract"><b>{{priceOfContract}}</b></th>
+            <th class="economy"><b>{{economy}}</b></th>
+            <th class="numberOfProcedureOnEIS"><b>{{numberOfProcedureOnEIS}}</b></th>
+
+            <td><a href="/purchase/{{id}}">Edit</a></td>
+        </tr>
+    {{/purchases}}
+
+</table>
+<a href="/addPurchase">Add new purchase</a>
+</form>
+</body>
+</html>

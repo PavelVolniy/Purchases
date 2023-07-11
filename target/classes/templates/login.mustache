@@ -8,18 +8,12 @@
     <title>Login</title>
 </head>
 <body>
-<div style="text-align: center;">
-    {{#login}}
-        {{login}}
-    {{/login}}
-</div>
 <form action="/login" method="post" style="margin-top: 15%; margin-right: 45%; text-align: right;">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <div><label>Username: <input type="text" name="username"></label></div>
         <div><label>Password: <input type="password" name="password"></label></div>
         <div><input type="submit" value="Sign In"></div>
         <a href="/registration">Add new user</a>
-    
 </form>
 
 </body>

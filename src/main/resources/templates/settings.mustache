@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+</head>
+<body>
+<table>
+    {{#userList}}
+        <tr>
+            <th class="id"><b>id- </b>
+                <f>{{id}}</f>
+            </th>
+            <th class="name"><b>name - </b>
+                <f>{{username}}</f>
+            </th>
+            <th class="password"><b>password - </b>
+                <f>{{password}}</f>
+            </th>
+            <th class="role"><b>role - </b>
+                <f>{{roles}}</f>
+            </th>
+
+            <th class="active"><b>active - </b>
+                <f>{{active}}</f>
+            </th>
+            <td><a href="/user/{{id}}">edit</a></td>
+        </tr>
+    {{/userList}}
+</table>
+
+<form action="/settings" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <div><input type="text" placeholder="name of branch" name="newBranch"> <input type="submit" value="add"></div>
+</form>
+</body>
+</html>

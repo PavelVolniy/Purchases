@@ -20,29 +20,48 @@
             border: 1px solid black;
             border-radius: 5px;
         }
+
     </style>
 </head>
 <body>
-    <form action="/delContract" method="post">
+<form action="/delContract" method="post">
+
+    <table title="Contracts list">
+        <tr>
+            {{#names}}
+                <th>{{.}}</th>
+            {{/names}}
+        </tr>
+
         {{#contracts}}
-            <table title="Contracts list">
-                <tr>
-                    <td style="width: 0px;">{{id}}</td>
-                    <td >{{nameContract}}</td>
-                    <td style="width: 100px;"><i>{{dateTo}}</i></td>
-                    <td style="width: 100px;"><i>{{dateFrom}}</i></td>
-                    <td style="width: 120px; text-align: end;"><b>{{price}}</b></td>
-                    <td style="width: 15px; align-content: right;"><button type="submit" >dell</button></td>
-                </tr>
-            </table>
+            <tr>
+                <th>branch</th>
+                <th>{{nameOfContract}}</th>
+                <th>{{pp_poz_ep}}</th>
+                <th>{{typeOfPurchase}}</th>
+                <th>{{numberOfContract}}</th>
+                <th>{{dateOfContract}}</th>
+                <th>{{sum}}</th>
+                <th>{{dateOfExecutionContract}}</th>
+                <th>{{nameOfSupplier}}</th>
+                <th>{{innOfSupplier}}</th>
+                <th>{{typeOfCompany}}</th>
+                <th>{{numberOfRegistryEntry}}</th>
+                <th>{{additionalAgreement}}</th>
+                <th>{{okdp2}}</th>
+                <th>{{f_i_o}}</th>
+            </tr>
         {{/contracts}}
-    </form>
-    <br>
-    <div><a href="/addContract" >Add new contract</a> or <a href="/main">main page</a></div>
-    <br>
-    <form action="/clearContractList" method="get">
-        <input name="clear list of contracts" type="submit" value="Clear list">
-    </form>
+
+    </table>
+
+</form>
+<br>
+<div><a href="/addContract">Add new contract</a> or <a href="/main">main page</a></div>
+<br>
+<form action="/clearContractList" method="get">
+    <input name="clear list of contracts" type="submit" value="Clear list">
+</form>
 
 </body>
 </html>

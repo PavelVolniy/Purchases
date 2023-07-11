@@ -1,12 +1,12 @@
 package com.chetverik.service;
 
 
-import com.chetverik.domain.Contract;
+import com.chetverik.domain.purchase.Purchase;
 
 public class CheckedContractFields {
-    public static boolean check(Contract contract){
-        if (contract != null && contract.getNameContract().length() > 0 &&
-                contract.getPrice() >= 0) {
+    public static boolean check(Purchase contract){
+        if (contract != null && contract.getNamePurchase().length() > 0 &&
+                contract.getStartPrice() >= 0) {
             return true;
         } else {
             return false;

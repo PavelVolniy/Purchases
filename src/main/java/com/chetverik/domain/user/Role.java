@@ -1,4 +1,4 @@
-package com.chetverik.domain;
+package com.chetverik.domain.user;
 
 import org.springframework.security.core.GrantedAuthority;
 

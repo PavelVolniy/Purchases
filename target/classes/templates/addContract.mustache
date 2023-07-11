@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,78 +12,123 @@
         input:valid{
             border: 2px solid black;
         }
-        
-
+input{
+    text-align: left;
+}
 
 
     </style>
 </head>
 <body>
+
 <form action="/addContract" method="post" style="margin-top: 10%;">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-
     <table border="1" align="center" style="text-align: left;">
         <tr>
-            {{#names}}
-                <th>{{.}}</th>
-            {{/names}}
+            <th>
+                <div>Флиал</div>
+            </th>
+            <th>
+                <div>Наименование</div>
+            </th>
+            <th>
+                <div>ПП ПОЗ с ЕП</div>
+            </th>
+            <th>
+                <div>Вид закупки</div>
+            </th>
+            <th>
+                <div>№ договора</div>
+            </th>
+            <th>
+                <div>Дата договора</div>
+            </th>
+            <th>
+                <div>Сумма</div>
+            </th>
+            <th>
+                <div>Дата исполнения договора</div>
+            </th>
         </tr>
-
-
-            <tr>
-        {{#contractList}}
-                <th>
-                    {{.}}
-                </th>
-        {{/contractList}}
+        <tr>
+            <th>
+                <input  type="text" name="branch" required="true">
+            </th>
+            <th>
+                <input type="text" name="nameOfContract" required="true">
+            </th>
+            <th>
+                <input type="text" name="pp_poz_ep" >
+            </th>
+            <th>
+                <input type="text" name="typeOfPurchase"  required="true">
+            </th>
+            <th>
+                <input type="text" name="numberOfContract" required="true">
+            </th>
+            <th>
+                <input type="date" name="dateOfContract"  required="true">
+            </th>
+            <th>
+                <input type="number" name="sum" step="0.01" required="true">
+            </th>
+            <th>
+                <input type="date" name="dateOfExecutionContract">
+            </th>
             </tr>
 
+            <tr>
+                <th>
+                    <div>Наименование поставщика</div>
+                </th>
+                <th>
+                    <div>ИНН Поставщика</div>
+                </th>
+                <th>
+                    <div>Тип предприятия</div>
+                </th>
+                <th>
+                    <div>№ реестровой записи</div>
+                </th>
+                <th>
+                    <div>доп. соглашение</div>
+                </th>
+                <th>
+                    <div>ОКПД2</div>
+                </th>
+                <th>
+                    <div>Ф.И.О.</div>
+                </th>
 
+                </tr>
 
+                <tr>
+
+            <th>
+                <input type="text" name="nameOfSupplier"  required="true">
+            </th>
+            <th>
+                <input type="number" name="innOfSupplier">
+            </th>
+            <th>
+                <input type="text" name="typeOfCompany">
+            </th>
+            <th>
+                <input type="number" name="numberOfRegistryEntry">
+            </th>
+            <th>
+                <input type="text" name="additionalAgreement">
+            </th>
+            <th>
+                <input type="text" name="okdp2">
+            </th>
+            <th>
+                <input type="text" name="f_i_o">
+            </th>
+            <td><input type="submit" value="Сохранить"></td>
+        </tr>
     </table>
 
-    <!--    <table border="1" align="center" style="text-align: left;">-->
-    <!--        <tr>-->
-    <!--            <th>Филиал</th>-->
-    <!--            <th>Наименование</th>-->
-    <!--            <th>ПП ПОЗ с ЕП</th>-->
-    <!--            <th>Вид закупки</th>-->
-    <!--            <th>№ Договора</th>-->
-    <!--            <th>Дата договора</th>-->
-    <!--            <th>Сумма</th>-->
-    <!--            <th>Дата исполнения договора</th>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--                <th><input type="text" disabled="true" value="some text" name="branch" minlength="2" maxlength="100"></th>-->
-    <!--                <th><input type="text" required="true" name="contractName"></th>-->
-    <!--                <th><input type="text" name="ppPozOfEp"></th>-->
-    <!--                <th><input type="text" name="typeOfPurchase"></th>-->
-    <!--                <th><input type="text" name="numberOfContract"></th>-->
-    <!--                <th><input type="date" name="dateOfContract"></th>-->
-    <!--                <th><input type="number" name="sumOfContract" step="0.01" min="0"></th>-->
-    <!--                <th><input type="date" name="dateOfExecutionOfContract"></th>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <th>Наименование поставщика</th>-->
-    <!--            <th>ИНН поставщика</th>-->
-    <!--            <th>Тип предприятия</th>-->
-    <!--            <th>№ реестровой записи</th>-->
-    <!--            <th>Доп соглашение</th>-->
-    <!--            <th>ОКПД 2</th>-->
-    <!--            <th>Ф.И.О.</th>-->
-    <!--            <th></th>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <th><input type="text" name="nameOfSupplier" min="2"></th>-->
-    <!--            <th><input type="number" name="INNofSupplier"></th>-->
-    <!--            <th><input type="text" name="typeOfCompany"></th>-->
-    <!--            <th><input type="number" name="numberOfRegistry"></th>-->
-    <!--            <th><input type="text" name="additionalAgreement"></th>-->
-    <!--            <th><input type="text" name="OKPD2"></th>-->
-    <!--            <th><input type="text" name="FIO"></th>-->
-    <!--            <th><input type="submit" value="add contract"></th>-->
-    <!--        </tr>-->
-    <!--    </table>-->
-
+</form>
 </body>
 </html>
