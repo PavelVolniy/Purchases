@@ -1,8 +1,8 @@
 package com.chetverik.domain.purchase;
 
 
+import com.chetverik.domain.Branches;
 import com.chetverik.domain.contract.Branch;
-import com.chetverik.domain.contract.ContractFieldNames;
 
 import javax.persistence.*;
 
@@ -12,9 +12,9 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-//    @ElementCollection(targetClass = ContractFieldNames.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "branches" , joinColumns = @JoinColumn(name = "branch_id"))
-    private String branch;
+    @ElementCollection(targetClass = Branches.class, fetch = FetchType.EAGER)
+    @OneToOne()
+    private Branch branch;
     private String namePurchase;
     private String typeOfPurchase;
     private boolean conditionOfPurchase;
@@ -23,20 +23,20 @@ public class Purchase {
     private String dateOfReview;
     private String numberOfContract;
     private Double startPrice;
-    private String applicationSubmitted;
-    private String applicationAdmitted;
+    private int applicationSubmitted;
+    private int applicationAdmitted;
     private double priceApplicationOne;
     private double priceApplicationTwo;
     private double differenceValues;
     private double priceOfContract;
     private double economy;
-    private String numberOfProcedureOnEIS;
+    private int numberOfProcedureOnEIS;
 
 
     public Purchase() {
     }
 
-    public Purchase(String branch,
+    public Purchase(Branch branch,
                     String namePurchase,
                     String type,
                     boolean condition,
@@ -45,14 +45,14 @@ public class Purchase {
                     String dateOfReview,
                     String numberOfContract,
                     Double startPrice,
-                    String applicationSubmitted,
-                    String applicationAdmitted,
+                    int applicationSubmitted,
+                    int applicationAdmitted,
                     double priceApplicationOne,
                     double priceApplicationTwo,
                     double differenceValues,
                     double priceOfContract,
                     double economy,
-                    String numberOfProcedureOnEIS) {
+                    int numberOfProcedureOnEIS) {
         this.branch = branch;
         this.namePurchase = namePurchase;
         this.typeOfPurchase = type;
@@ -104,11 +104,11 @@ public class Purchase {
         this.id = id;
     }
 
-    public String getBranch() {
+    public Branch getBranch() {
         return branch;
     }
 
-    public void setBranch(String branch) {
+    public void setBranch(Branch branch) {
         this.branch = branch;
     }
 
@@ -176,20 +176,24 @@ public class Purchase {
         this.startPrice = startPrice;
     }
 
-    public String getApplicationSubmitted() {
+    public int getApplicationSubmitted() {
         return applicationSubmitted;
     }
 
-    public void setApplicationSubmitted(String applicationSubmitted) {
+    public void setApplicationSubmitted(int applicationSubmitted) {
         this.applicationSubmitted = applicationSubmitted;
     }
 
-    public String getApplicationAdmitted() {
+    public int getApplicationAdmitted() {
         return applicationAdmitted;
     }
 
-    public void setApplicationAdmitted(String applicationAdmitted) {
+    public void setApplicationAdmitted(int applicationAdmitted) {
         this.applicationAdmitted = applicationAdmitted;
+    }
+
+    public void setNumberOfProcedureOnEIS(int numberOfProcedureOnEIS) {
+        this.numberOfProcedureOnEIS = numberOfProcedureOnEIS;
     }
 
     public double getPriceApplicationOne() {
@@ -230,13 +234,5 @@ public class Purchase {
 
     public void setEconomy(double economy) {
         this.economy = economy;
-    }
-
-    public String getNumberOfProcedureOnEIS() {
-        return numberOfProcedureOnEIS;
-    }
-
-    public void setNumberOfProcedureOnEIS(String numberOfProcedureOnEIS) {
-        this.numberOfProcedureOnEIS = numberOfProcedureOnEIS;
     }
 }

@@ -1,8 +1,11 @@
 package com.chetverik.kotlin.controller
 
+import com.chetverik.components.IAuthenticationFacade
 import com.chetverik.domain.purchase.Purchase
 import com.chetverik.domain.purchase.PurchaseFieldNames
+import com.chetverik.domain.user.User
 import com.chetverik.repositories.PurchaseRepo
+import com.chetverik.repositories.UserRepo
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import java.util.*
 
 @Controller
-open class PurchaseController(private val purchaseRepo: PurchaseRepo) {
+open class PurchaseController(
+    private val purchaseRepo: PurchaseRepo,
+    private val userRepo: UserRepo,
+    private val authenticationFacade: IAuthenticationFacade,
+) {
 
     @GetMapping("/purchase")
     open fun getPurchaseList(model: Model): String {
@@ -30,31 +37,34 @@ open class PurchaseController(private val purchaseRepo: PurchaseRepo) {
     }
 
     @GetMapping("/addPurchase")
-    open fun addPurchaseForm() = "addPurchase"
+    open fun addPurchaseForm(model: Model) :String{
+        model.addAttribute("branch", getCurrentUser().branch)
+        return "addPurchase"
+    }
 
     @PostMapping("/addPurchase")
     open fun addPurchase(
-        @RequestParam branch: String,
+//        @RequestParam branch: String,
         @RequestParam namePurchase: String,
-        @RequestParam typeOfPurchase: String,
-        @RequestParam conditionOfPurchase: Boolean,
+        @RequestParam(defaultValue = "not") typeOfPurchase: String,
+        @RequestParam(required = false) conditionOfPurchase: Boolean,
         @RequestParam dateOfPlacement: String,
         @RequestParam dateOfEnd: String,
         @RequestParam dateOfReview: String,
         @RequestParam numberOfContract: String,
         @RequestParam startPrice: Double,
-        @RequestParam applicationSubmitted: String,
-        @RequestParam applicationAdmitted: String,
-        @RequestParam priceApplicationOne: Double,
-        @RequestParam priceApplicationTwo: Double,
-        @RequestParam differenceValues: Double,
-        @RequestParam priceOfContract: Double,
-        @RequestParam economy: Double,
-        @RequestParam numberOfProcedureOnEIS: String,
+        @RequestParam(defaultValue = "0") applicationSubmitted: Int,
+        @RequestParam(defaultValue = "0") applicationAdmitted: Int,
+        @RequestParam(defaultValue = "0.0") priceApplicationOne: Double,
+        @RequestParam(defaultValue = "0.0") priceApplicationTwo: Double,
+        @RequestParam(defaultValue = "0.0") differenceValues: Double,
+        @RequestParam(defaultValue = "0.0") priceOfContract: Double,
+        @RequestParam(defaultValue = "0.0") economy: Double,
+        @RequestParam(defaultValue = "0") numberOfProcedureOnEIS: Int,
         model: Model,
     ): String {
         val newPurchase = Purchase(
-            branch,
+            getCurrentUser().branch,
             namePurchase,
             typeOfPurchase,
             conditionOfPurchase,
@@ -79,5 +89,10 @@ open class PurchaseController(private val purchaseRepo: PurchaseRepo) {
             purchaseRepo.save(newPurchase)
         }
         return "redirect:/purchase"
+    }
+
+    private fun getCurrentUser(): User {
+        val userName = authenticationFacade.authentication.name
+        return userRepo.findByUsername(userName)
     }
 }

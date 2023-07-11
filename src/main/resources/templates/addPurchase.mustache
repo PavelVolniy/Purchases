@@ -15,6 +15,7 @@ input{
     text-align: left;
 }
 
+
     </style>
 </head>
 <body>
@@ -33,7 +34,7 @@ input{
             <th>Начальная цена</th>
         </tr>
         <tr>
-            <th><input type="text" name="branch" required="true"></th>
+            <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}></th>
             <th><input type="text" name="namePurchase" required="true"></th>
             <th><input type="text" name="typeOfPurchase"></th>
             <th><input type="checkbox" name="conditionOfPurchase"></th>
@@ -68,9 +69,10 @@ input{
     </table>
 
     {{#errorMessage}}
-    <script>
+        <script>
           alert("{{errorMessage}}");
-    </script>
+
+        </script>
     {{/errorMessage}}
 
 </form>

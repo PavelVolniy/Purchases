@@ -17,6 +17,7 @@ input{
 }
 
 
+
     </style>
 </head>
 <body>
@@ -51,80 +52,47 @@ input{
             </th>
         </tr>
         <tr>
+            <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}></th>
+            <th><input type="text" name="nameOfContract" required="true"></th>
+            <th><input type="text" name="pp_poz_ep"></th>
+            <th><input type="text" name="typeOfPurchase" required="true"></th>
+            <th><input type="text" name="numberOfContract" required="true"></th>
+            <th><input type="date" name="dateOfContract" required="true"></th>
+            <th><input type="number" name="sum" step="0.01" required="true"></th>
+            <th><input type="date" name="dateOfExecutionContract"></th>
+        </tr>
+        <tr>
             <th>
-                <input  type="text" name="branch" required="true">
+                <div>Наименование поставщика</div>
             </th>
             <th>
-                <input type="text" name="nameOfContract" required="true">
+                <div>ИНН Поставщика</div>
             </th>
             <th>
-                <input type="text" name="pp_poz_ep" >
+                <div>Тип предприятия</div>
             </th>
             <th>
-                <input type="text" name="typeOfPurchase"  required="true">
+                <div>№ реестровой записи</div>
             </th>
             <th>
-                <input type="text" name="numberOfContract" required="true">
+                <div>доп. соглашение</div>
             </th>
             <th>
-                <input type="date" name="dateOfContract"  required="true">
+                <div>ОКПД2</div>
             </th>
             <th>
-                <input type="number" name="sum" step="0.01" required="true">
+                <div>Ф.И.О.</div>
             </th>
-            <th>
-                <input type="date" name="dateOfExecutionContract">
-            </th>
-            </tr>
+        </tr>
+        <tr>
 
-            <tr>
-                <th>
-                    <div>Наименование поставщика</div>
-                </th>
-                <th>
-                    <div>ИНН Поставщика</div>
-                </th>
-                <th>
-                    <div>Тип предприятия</div>
-                </th>
-                <th>
-                    <div>№ реестровой записи</div>
-                </th>
-                <th>
-                    <div>доп. соглашение</div>
-                </th>
-                <th>
-                    <div>ОКПД2</div>
-                </th>
-                <th>
-                    <div>Ф.И.О.</div>
-                </th>
-
-                </tr>
-
-                <tr>
-
-            <th>
-                <input type="text" name="nameOfSupplier"  required="true">
-            </th>
-            <th>
-                <input type="number" name="innOfSupplier">
-            </th>
-            <th>
-                <input type="text" name="typeOfCompany">
-            </th>
-            <th>
-                <input type="number" name="numberOfRegistryEntry">
-            </th>
-            <th>
-                <input type="text" name="additionalAgreement">
-            </th>
-            <th>
-                <input type="text" name="okdp2">
-            </th>
-            <th>
-                <input type="text" name="f_i_o">
-            </th>
+            <th><input type="text" name="nameOfSupplier" required="true"></th>
+            <th><input type="number" name="innOfSupplier" ></th>
+            <th><input type="text" name="typeOfCompany"></th>
+            <th><input type="number" name="numberOfRegistryEntry"></th>
+            <th><input type="text" name="additionalAgreement"></th>
+            <th><input type="text" name="okdp2"></th>
+            <th><input type="text" name="f_i_o"></th>
             <td><input type="submit" value="Сохранить"></td>
         </tr>
     </table>

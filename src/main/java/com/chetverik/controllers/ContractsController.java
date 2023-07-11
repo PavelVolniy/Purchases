@@ -1,7 +1,6 @@
 package com.chetverik.controllers;
 
 import com.chetverik.components.IAuthenticationFacade;
-import com.chetverik.domain.contract.Branch;
 import com.chetverik.domain.contract.Contract;
 import com.chetverik.domain.contract.ContractFieldNames;
 import com.chetverik.domain.user.User;
@@ -35,9 +34,12 @@ public class ContractsController {
     @GetMapping("/contracts")
     public String getContractsList(Model model) {
         Iterable<Contract> contracts = contractRepository.findAll();
-        for (Contract item :contracts) {System.out.println(item);}
+        for (Contract item : contracts) {
+            System.out.println(item);
+        }
         model.addAttribute("names", ContractFieldNames.getContractNames());
         model.addAttribute("contracts", contracts);
+
         return "contracts";
     }
 
@@ -46,6 +48,7 @@ public class ContractsController {
     public String addContractForm(Model model) {
         model.addAttribute("names", ContractFieldNames.getContractNames());
         model.addAttribute("contractList", ContractFieldNames.getContractNames());
+        model.addAttribute("branch", getCurrentUser().getBranch());
         return "addContract";
     }
 
@@ -53,7 +56,7 @@ public class ContractsController {
     @PostMapping("/addContract")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addContract(
-            @RequestParam String branch,
+//            @RequestParam String branch,
             @RequestParam String nameOfContract,
             @RequestParam String pp_poz_ep,
             @RequestParam String typeOfPurchase,
@@ -62,33 +65,30 @@ public class ContractsController {
             @RequestParam Double sum,
             @RequestParam String dateOfExecutionContract,
             @RequestParam String nameOfSupplier,
-            @RequestParam String innOfSupplier,
+            @RequestParam(defaultValue = "000") int innOfSupplier,
             @RequestParam String typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
             @RequestParam String additionalAgreement,
             @RequestParam String okdp2,
-            @RequestParam String f_i_o,
-            Model model
+            @RequestParam String f_i_o
     ) {
         Contract newContract;
-        String userName = authenticationFacade.getAuthentication().getName();
-        User currentUser = userRepo.findByUsername(userName);
-            newContract = new Contract(
-                    currentUser.getBranch(),
-                    nameOfContract,
-                    pp_poz_ep,
-                    typeOfPurchase,
-                    numberOfContract,
-                    dateOfContract,
-                    sum,
-                    dateOfExecutionContract,
-                    nameOfSupplier,
-                    innOfSupplier,
-                    typeOfCompany,
-                    numberOfRegistryEntry,
-                    additionalAgreement,
-                    okdp2,
-                    f_i_o);
+        newContract = new Contract(
+                getCurrentUser().getBranch(),
+                nameOfContract,
+                pp_poz_ep,
+                typeOfPurchase,
+                numberOfContract,
+                dateOfContract,
+                sum,
+                dateOfExecutionContract,
+                nameOfSupplier,
+                innOfSupplier,
+                typeOfCompany,
+                numberOfRegistryEntry,
+                additionalAgreement,
+                okdp2,
+                f_i_o);
         contractRepository.save(newContract);
         return "redirect:/contracts";
     }
@@ -97,5 +97,11 @@ public class ContractsController {
     public String clearContractList() {
         contractRepository.deleteAll();
         return "redirect:/contracts";
+    }
+
+    private User getCurrentUser() {
+        String userName = authenticationFacade.getAuthentication().getName();
+        User currentUser = userRepo.findByUsername(userName);
+        return currentUser;
     }
 }

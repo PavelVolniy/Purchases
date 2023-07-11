@@ -24,7 +24,8 @@ public class RegistrationController {
     }
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(Model model) {
+        model.addAttribute("branches", branchRepo.findAll());
         return "registration";
     }
 
@@ -32,6 +33,7 @@ public class RegistrationController {
     public String addUser(
             @RequestParam String username,
             @RequestParam String password,
+            @RequestParam String branch,
             Model model
     ) {
         User user = new User();
@@ -42,9 +44,9 @@ public class RegistrationController {
         }
         user.setUsername(username);
         user.setPassword(password);
-        user.setBranch(branchRepo.findByName("Центральный"));
+        user.setBranch(branchRepo.findByName(branch));
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.ADMIN));
+        user.setRoles(Collections.singleton(Role.USER));
         userRepo.save(user);
         return "redirect:/login";
     }

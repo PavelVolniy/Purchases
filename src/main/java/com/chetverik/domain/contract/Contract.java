@@ -22,7 +22,7 @@ public class Contract {
     private Double sum;
     private String dateOfExecutionContract;
     private String nameOfSupplier;
-    private String innOfSupplier;
+    private int innOfSupplier;
     private String typeOfCompany;
     private String numberOfRegistryEntry;
     private String additionalAgreement;
@@ -41,7 +41,7 @@ public class Contract {
                     Double sum,
                     String dateOfExecutionContract,
                     String nameOfSupplier,
-                    String innOfSupplier,
+                    int innOfSupplier,
                     String typeOfCompany,
                     String numberOfRegistryEntry,
                     String additionalAgreement,
@@ -166,11 +166,11 @@ public class Contract {
         this.nameOfSupplier = nameOfSupplier;
     }
 
-    public String getInnOfSupplier() {
+    public int getInnOfSupplier() {
         return innOfSupplier;
     }
 
-    public void setInnOfSupplier(String innOfSupplier) {
+    public void setInnOfSupplier(int innOfSupplier) {
         this.innOfSupplier = innOfSupplier;
     }
 

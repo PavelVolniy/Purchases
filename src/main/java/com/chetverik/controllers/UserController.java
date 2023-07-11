@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping
-    public String getUserKList(Model model){
+    public String getUserKList(Model model) {
         model.addAttribute("userList", userRepo.findAll());
         return "userList";
     }
@@ -48,6 +48,7 @@ public class UserController {
     public String saveUser(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
+            @RequestParam(defaultValue = "not") String branch,
             @RequestParam("userId") User user
     ) {
         user.setUsername(username);
@@ -57,7 +58,7 @@ public class UserController {
                 .collect(Collectors.toSet());
 
         user.getRoles().clear();
-
+        user.setBranch(branchRepo.findByName(branch));
         for (String key : form.keySet()) {
             if (roles.contains(key)) {
                 user.getRoles().add(Role.valueOf(key));

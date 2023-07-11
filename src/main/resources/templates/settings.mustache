@@ -4,9 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
+    <style>
+        table{
+            border: 1px solid black;
+            border-radius: 10px;
+            background-color: aquamarine;
+        }
+        td{
+            background-color: rgb(201, 197, 197);
+            border-radius: 6px;
+        }
+
+
+    </style>
 </head>
 <body>
-<table>
+<table style="width: 40%;">
     {{#userList}}
         <tr>
             <th class="id"><b>id- </b>
@@ -21,7 +34,7 @@
             <th class="role"><b>role - </b>
                 <f>{{roles}}</f>
             </th>
-
+            <th class="branch"><b>branch-</b>{{#branch}}{{name}}{{/branch}}</th>
             <th class="active"><b>active - </b>
                 <f>{{active}}</f>
             </th>
@@ -29,10 +42,28 @@
         </tr>
     {{/userList}}
 </table>
+<a href="/registration">Add new user</a>
+
+<table style="margin-top: 20px;">
+    <tr>
+        <th style="text-align: left;">id</th>
+        <th style="text-align: right;">Филиал</th>
+    </tr>
+
+    {{#branches}}
+        <tr>
+            <th style="text-align: left;">{{id}}</th>
+            <th style="text-align: right;">{{name}}</th>
+            <td><a href="/branch/{{id}}">edit</a></td>
+        </tr>
+    {{/branches}}
+
+</table>
 
 <form action="/settings" method="post">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <div><input type="text" placeholder="name of branch" name="newBranch"> <input type="submit" value="add"></div>
 </form>
+
 </body>
 </html>
