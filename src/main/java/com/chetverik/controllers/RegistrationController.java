@@ -46,7 +46,7 @@ public class RegistrationController {
         user.setPassword(password);
         user.setBranch(branchRepo.findByName(branch));
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Collections.singleton(Role.MANAGER));
         userRepo.save(user);
         return "redirect:/login";
     }

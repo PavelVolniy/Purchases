@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,6 +15,7 @@
 input{
     text-align: left;
 }
+
 
 
 
@@ -55,7 +56,13 @@ input{
             <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}></th>
             <th><input type="text" name="nameOfContract" required="true"></th>
             <th><input type="text" name="pp_poz_ep"></th>
-            <th><input type="text" name="typeOfPurchase" required="true"></th>
+            <th>
+                {{#types}}
+                    <i>
+                        <input type="radio" name="typeOfPurchase" value="{{id}}">{{nameTypeOfPurchase}}
+                    </i>
+                {{/types}}
+            </th>
             <th><input type="text" name="numberOfContract" required="true"></th>
             <th><input type="date" name="dateOfContract" required="true"></th>
             <th><input type="number" name="sum" step="0.01" required="true"></th>
@@ -87,8 +94,8 @@ input{
         <tr>
 
             <th><input type="text" name="nameOfSupplier" required="true"></th>
-            <th><input type="number" name="innOfSupplier" ></th>
-            <th><input type="text" name="typeOfCompany"></th>
+            <th><input type="number" name="innOfSupplier" required="true"></th>
+            <th><input type="text" name="nameTypeOfCompany"></th>
             <th><input type="number" name="numberOfRegistryEntry"></th>
             <th><input type="text" name="additionalAgreement"></th>
             <th><input type="text" name="okdp2"></th>

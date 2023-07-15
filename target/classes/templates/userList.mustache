@@ -44,6 +44,9 @@
         .name{
             text-align: left;
         }
+        .branch{
+        text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +59,7 @@
                     <th class="name"><b >name - </b> <f>{{username}}</f></th>
                     <th class="password"><b >password - </b> <f>{{password}}</f></th>
                     <th class="role"><b >role - </b><f>{{roles}}</f></th>
+                    <th class="branch"><b>branch - </b><f>{{#branch}}{{name}}{{/branch}}</f></th>
                     <th class="active"><b >active - </b> <f>{{active}}</f></th>
                     <td><a href="/user/{{id}}">edit</a></td>
                 </tr>

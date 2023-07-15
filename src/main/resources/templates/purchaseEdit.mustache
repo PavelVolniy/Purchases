@@ -1,23 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Current purchase</title>
-    <style>
-                input:invalid{
-            border: 2px solid red;
-        }
-        input:valid{
-            border: 2px solid black;
-        }
-input{
-    text-align: left;
-}
-
-
-
-    </style>
+    <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>edit purchase</title>
 </head>
 <body>
 <form action="/addPurchase" method="post">
@@ -36,12 +24,12 @@ input{
         </tr>
         <tr>
             <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}></th>
-            <th><input type="text" name="namePurchase" required="true"></th>
+            <th><input type="text" name="namePurchase" required="true" value="{{namePurchase}}"></th>
             <th>
                 {{#types}}
-                    <i>
-                        <input type="radio" name="typeOfPurchase" value="{{id}}">{{nameTypeOfPurchase}}
-                    </i>
+                <i>
+                    <input type="radio" name="typeOfPurchase" value="{{id}}">{{nameTypeOfPurchase}}
+                </i>
                 {{/types}}
             </th>
             <th><input type="checkbox" name="conditionOfPurchase"></th>
@@ -76,7 +64,7 @@ input{
     </table>
 
     {{#errorMessage}}
-        <script>
+    <script>
           alert("{{errorMessage}}");
         </script>
     {{/errorMessage}}

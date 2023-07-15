@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,6 +15,9 @@
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <div><label>User Name: <input type="text" name="username"></label></div>
     <div><label>Password: <input type="password" name="password"></label></div>
+    {{#branches}}
+        <div><input type="radio" name="branch" id="{{id}}" value="{{name}}" required="true"><label for="{{id}}">{{name}}</label></div>
+    {{/branches}}
     <div><input type="submit" value="Registration"></div>
 </form>
 

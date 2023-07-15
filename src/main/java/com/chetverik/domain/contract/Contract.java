@@ -12,18 +12,23 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ElementCollection(targetClass = Branches.class, fetch = FetchType.EAGER)
-    @OneToOne()
+    @OneToOne
     private Branch branch;
     private String nameOfContract;
     private String pp_poz_ep;
-    private String typeOfPurchase;
+    @ElementCollection(targetClass = TypeOfPurchase.class, fetch = FetchType.EAGER)
+    @OneToOne
+    private TypeOfPurchase typeOfPurchase;
     private String numberOfContract;
     private String dateOfContract;
     private Double sum;
     private String dateOfExecutionContract;
-    private String nameOfSupplier;
-    private int innOfSupplier;
-    private String typeOfCompany;
+    @ElementCollection(targetClass = Supplier.class, fetch = FetchType.EAGER)
+    @OneToOne
+    private Supplier supplier;
+    @ElementCollection(targetClass = TypeCompany.class, fetch = FetchType.EAGER)
+    @OneToOne
+    private TypeCompany typeOfCompany;
     private String numberOfRegistryEntry;
     private String additionalAgreement;
     private String okdp2;
@@ -35,14 +40,13 @@ public class Contract {
     public Contract(Branch branch,
                     String nameOfContract,
                     String pp_poz_ep,
-                    String typeOfPurchase,
+                    TypeOfPurchase typeOfPurchase,
                     String numberOfContract,
                     String dateOfContract,
                     Double sum,
                     String dateOfExecutionContract,
-                    String nameOfSupplier,
-                    int innOfSupplier,
-                    String typeOfCompany,
+                    Supplier supplier,
+                    TypeCompany typeOfCompany,
                     String numberOfRegistryEntry,
                     String additionalAgreement,
                     String okdp2,
@@ -55,8 +59,7 @@ public class Contract {
         this.dateOfContract = dateOfContract;
         this.sum = sum;
         this.dateOfExecutionContract = dateOfExecutionContract;
-        this.nameOfSupplier = nameOfSupplier;
-        this.innOfSupplier = innOfSupplier;
+        this.supplier = supplier;
         this.typeOfCompany = typeOfCompany;
         this.numberOfRegistryEntry = numberOfRegistryEntry;
         this.additionalAgreement = additionalAgreement;
@@ -76,8 +79,7 @@ public class Contract {
                 ", dateOfContract='" + dateOfContract + '\'' +
                 ", sum=" + sum +
                 ", dateOfExecutionContract='" + dateOfExecutionContract + '\'' +
-                ", nameOfSupplier='" + nameOfSupplier + '\'' +
-                ", innOfSupplier='" + innOfSupplier + '\'' +
+                ", nameOfSupplier='" + supplier + '\'' +
                 ", typeOfCompany='" + typeOfCompany + '\'' +
                 ", numberOfRegistryEntry='" + numberOfRegistryEntry + '\'' +
                 ", additionalAgreement='" + additionalAgreement + '\'' +
@@ -118,11 +120,11 @@ public class Contract {
         this.pp_poz_ep = pp_poz_ep;
     }
 
-    public String getTypeOfPurchase() {
+    public TypeOfPurchase getTypeOfPurchase() {
         return typeOfPurchase;
     }
 
-    public void setTypeOfPurchase(String typeOfPurchase) {
+    public void setTypeOfPurchase(TypeOfPurchase typeOfPurchase) {
         this.typeOfPurchase = typeOfPurchase;
     }
 
@@ -158,27 +160,19 @@ public class Contract {
         this.dateOfExecutionContract = dateOfExecutionContract;
     }
 
-    public String getNameOfSupplier() {
-        return nameOfSupplier;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setNameOfSupplier(String nameOfSupplier) {
-        this.nameOfSupplier = nameOfSupplier;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
-    public int getInnOfSupplier() {
-        return innOfSupplier;
-    }
-
-    public void setInnOfSupplier(int innOfSupplier) {
-        this.innOfSupplier = innOfSupplier;
-    }
-
-    public String getTypeOfCompany() {
+    public TypeCompany getTypeOfCompany() {
         return typeOfCompany;
     }
 
-    public void setTypeOfCompany(String typeOfCompany) {
+    public void setTypeOfCompany(TypeCompany typeOfCompany) {
         this.typeOfCompany = typeOfCompany;
     }
 

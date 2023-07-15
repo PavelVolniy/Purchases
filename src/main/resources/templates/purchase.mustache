@@ -41,8 +41,9 @@
         <tr>
             <th class="branch"><b>{{#branch}}{{name}}{{/branch}}</b></th>
             <th class="namePurchase"><b>{{namePurchase}}</b></th>
-            <th class="typeOfPurchase"><b>{{typeOfPurchase}}</b></th>
-            <th class="conditionOfPurchase"><b>{{conditionOfPurchase}}</b></th>
+            <th class="typeOfPurchase"><b>{{#typeOfPurchase}}{{nameTypeOfPurchase}}{{/typeOfPurchase}}</b></th>
+            <th class="conditionOfPurchase"><b>{{#conditionOfPurchase}}да{{/conditionOfPurchase}}
+            {{^conditionOfPurchase}}нет{{/conditionOfPurchase}}</b></th>
             <th class="dateOfPlacement"><b>{{dateOfPlacement}}</b></th>
             <th class="dateOfEnd"><b>{{dateOfEnd}}</b></th>
             <th class="dateOfReview"><b>{{dateOfReview}}</b></th>
@@ -64,5 +65,8 @@
 </table>
 <a href="/addPurchase">Add new purchase</a>
 </form>
+<script>
+    
+</script>
 </body>
 </html>

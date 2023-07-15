@@ -16,10 +16,15 @@
         }
 
 
+
+
     </style>
 </head>
 <body>
-<table style="width: 40%;">
+<a href="/main">Main page</a>
+
+<input type="hidden" name="_csrf" value="{{_csrf.token}}">
+<table style="width: 70%;">
     {{#userList}}
         <tr>
             <th class="id"><b>id- </b>
@@ -65,5 +70,23 @@
     <div><input type="text" placeholder="name of branch" name="newBranch"> <input type="submit" value="add"></div>
 </form>
 
+<br>
+<table>
+    <tr>
+        <th>id</th>
+        <th>тип закупки</th>
+    </tr>
+    {{#types}}
+        <tr>
+            <th>{{id}}</th>
+            <th>{{nameTypeOfPurchase}}</th>
+            <td><a href="/type/{{id}}">edit</a></td>
+        </tr>
+    {{/types}}
+</table>
+<form action="/settings/type" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <div><input type="text" placeholder="name of type purchase" name="newTypeOfPurchase"> <input type="submit" value="add"></div>
+</form>
 </body>
 </html>

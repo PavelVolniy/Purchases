@@ -1,10 +1,12 @@
 package com.chetverik.kotlin.controller
 
 import com.chetverik.components.IAuthenticationFacade
+import com.chetverik.domain.contract.TypeOfPurchase
 import com.chetverik.domain.purchase.Purchase
 import com.chetverik.domain.purchase.PurchaseFieldNames
 import com.chetverik.domain.user.User
 import com.chetverik.repositories.PurchaseRepo
+import com.chetverik.repositories.TypePurchaseRepo
 import com.chetverik.repositories.UserRepo
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -19,6 +21,7 @@ open class PurchaseController(
     private val purchaseRepo: PurchaseRepo,
     private val userRepo: UserRepo,
     private val authenticationFacade: IAuthenticationFacade,
+    private val typeOfPurchaseRepo: TypePurchaseRepo,
 ) {
 
     @GetMapping("/purchase")
@@ -31,14 +34,18 @@ open class PurchaseController(
     @GetMapping("/purchase/{id}")
     open fun editPurchase(@PathVariable id: String, model: Model): String {
         val purchaseId: Long = id.toLong()
-        val findAllById = purchaseRepo.findAllById(Collections.singleton(purchaseId))
-
-        return "purchaseEdit"
+        val findAllById = purchaseRepo.findById(purchaseId)
+        return if (findAllById.get().branch == getCurrentUser().branch){
+            "purchaseEdit"
+        } else{
+            "redirect:/purchase"
+        }
     }
 
     @GetMapping("/addPurchase")
     open fun addPurchaseForm(model: Model) :String{
         model.addAttribute("branch", getCurrentUser().branch)
+        model.addAttribute("types", typeOfPurchaseRepo.findAll())
         return "addPurchase"
     }
 
@@ -46,7 +53,7 @@ open class PurchaseController(
     open fun addPurchase(
 //        @RequestParam branch: String,
         @RequestParam namePurchase: String,
-        @RequestParam(defaultValue = "not") typeOfPurchase: String,
+        @RequestParam("typeOfPurchase") typeOfPurchase: TypeOfPurchase,
         @RequestParam(required = false) conditionOfPurchase: Boolean,
         @RequestParam dateOfPlacement: String,
         @RequestParam dateOfEnd: String,

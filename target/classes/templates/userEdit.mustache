@@ -17,19 +17,27 @@
         <div>user name <input type="text" name="username" value="{{username}}"></div>
         <div>
             {{#roleList}}
-                <label><input type="checkbox" name="{{.}}" > {{.}} </label>
+                <label><input type="checkbox" name="{{.}}"> {{.}} </label>
             {{/roleList}}
         </div>
         <div>
             {{#branches}}
-            <i>
-                <input type="radio" name="branch" value="{{name}}"> {{name}}
-            </i>
+                <i>
+                    <input type="radio" name="branch" value="{{name}}"> {{name}}
+                </i>
             {{/branches}}
         </div>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <button type="submit">save</button>
+
     {{/user}}
 </form>
+{{#user}}
+    <form action="/user/del" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <input type="hidden" name="userId" value="{{id}}">
+        <button type="submit">del</button>
+    </form>
+{{/user}}
 </body>
 </html>

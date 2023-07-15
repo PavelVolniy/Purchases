@@ -3,6 +3,7 @@ package com.chetverik.domain.purchase;
 
 import com.chetverik.domain.Branches;
 import com.chetverik.domain.contract.Branch;
+import com.chetverik.domain.contract.TypeOfPurchase;
 
 import javax.persistence.*;
 
@@ -16,7 +17,9 @@ public class Purchase {
     @OneToOne()
     private Branch branch;
     private String namePurchase;
-    private String typeOfPurchase;
+    @ElementCollection(targetClass = Purchase.class, fetch = FetchType.EAGER)
+    @OneToOne()
+    private TypeOfPurchase typeOfPurchase;
     private boolean conditionOfPurchase;
     private String dateOfPlacement;
     private String dateOfEnd;
@@ -38,7 +41,7 @@ public class Purchase {
 
     public Purchase(Branch branch,
                     String namePurchase,
-                    String type,
+                    TypeOfPurchase type,
                     boolean condition,
                     String dateOfPlacement,
                     String dateOfEnd,
@@ -120,11 +123,11 @@ public class Purchase {
         this.namePurchase = namePurchase;
     }
 
-    public String getTypeOfPurchase() {
+    public TypeOfPurchase getTypeOfPurchase() {
         return typeOfPurchase;
     }
 
-    public void setTypeOfPurchase(String typeOfPurchase) {
+    public void setTypeOfPurchase(TypeOfPurchase typeOfPurchase) {
         this.typeOfPurchase = typeOfPurchase;
     }
 

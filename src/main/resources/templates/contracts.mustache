@@ -38,14 +38,14 @@
                 {{#branch}}<th>{{name}}</th>{{/branch}}
                 <th>{{nameOfContract}}</th>
                 <th>{{pp_poz_ep}}</th>
-                <th>{{typeOfPurchase}}</th>
+                {{#typeOfPurchase}} <th>{{nameTypeOfPurchase}}</th> {{/typeOfPurchase}}
                 <th>{{numberOfContract}}</th>
                 <th>{{dateOfContract}}</th>
                 <th>{{sum}}</th>
                 <th>{{dateOfExecutionContract}}</th>
-                <th>{{nameOfSupplier}}</th>
-                <th>{{innOfSupplier}}</th>
-                <th>{{typeOfCompany}}</th>
+                {{#supplier}}<th>{{nameSupplier}}</th>
+                <th>{{inn}}</th>{{/supplier}}
+                {{#typeOfCompany}}<th>{{nameOfTypeCompany}}</th>{{/typeOfCompany}}
                 <th>{{numberOfRegistryEntry}}</th>
                 <th>{{additionalAgreement}}</th>
                 <th>{{okdp2}}</th>

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('SUPERUSER')")
 public class UserController {
 
     private UserRepo userRepo;
@@ -31,7 +31,7 @@ public class UserController {
     @GetMapping
     public String getUserKList(Model model) {
         model.addAttribute("userList", userRepo.findAll());
-        return "userList";
+        return "redirect:/settings";
     }
 
     @GetMapping("/{id}")
@@ -67,16 +67,16 @@ public class UserController {
 
         userRepo.save(user);
 
-        return "redirect:/user";
+        return "redirect:/settings";
     }
 
+
     @PostMapping("/del")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SUPERUSER')")
     public String deleteUser(
-            @RequestParam String username,
-            Model model
+            @RequestParam("userId") User user
     ) {
-        User byUsername = userRepo.findByUsername(username);
+            userRepo.delete(user);
         return "redirect:/user";
     }
 
