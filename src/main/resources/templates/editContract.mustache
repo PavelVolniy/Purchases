@@ -1,30 +1,18 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>addContract</title>
-    <style>
-        input:invalid{
-            border: 2px solid red;
-        }
-        input:valid{
-            border: 2px solid black;
-        }
-input{
-    text-align: left;
-}
-
-
-
-
-    </style>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit contract</title>
 </head>
 <body>
-
-<form action="/contracts/addContract" method="post" style="margin-top: 10%;">
+<form action="/contracts" method="post" style="margin-top: 10%;">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    {{#contract}}
+
+
     <table border="1" align="center" style="text-align: left;">
         <tr>
             <th>
@@ -53,9 +41,9 @@ input{
             </th>
         </tr>
         <tr>
-            <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}></th>
-            <th><input type="text" name="nameOfContract" required="true"></th>
-            <th><input type="text" name="pp_poz_ep"></th>
+            <th><input type="text" name="branch" required="true" {{#branch}} disabled value="{{name}}" {{/branch}}></th>
+            <th><input type="text" name="nameOfContract" required="true" value="{{nameOfContract}}"></th>
+            <th><input type="text" name="pp_poz_ep" value="{{pp_poz_ep}}"></th>
             <th>
                 {{#types}}
                     <i>
@@ -63,10 +51,10 @@ input{
                     </i>
                 {{/types}}
             </th>
-            <th><input type="text" name="numberOfContract" required="true"></th>
-            <th><input type="date" name="dateOfContract" required="true"></th>
-            <th><input type="number" name="sum" step="0.01" required="true"></th>
-            <th><input type="date" name="dateOfExecutionContract"></th>
+            <th><input type="text" name="numberOfContract" required="true" value="{{numberOfContract}}"></th>
+            <th><input type="date" name="dateOfContract" required="true" value="{{dateOfContract}}"></th>
+            <th><input type="number" name="sum" step="0.01" required="true" value="{{sum}}"></th>
+            <th><input type="date" name="dateOfExecutionContract" value="{{dateOfExecutionContract}}"></th>
         </tr>
         <tr>
             <th>
@@ -93,24 +81,20 @@ input{
         </tr>
         <tr>
 
-            <th><input type="text" name="nameOfSupplier" required="true"></th>
-            <th><input type="number" name="innOfSupplier" required="true"></th>
-            <th>
-                {{#typesCompany}}
-                    <i>
-                        <input type="radio" name="nameTypeOfCompany" checked value="{{id}}">{{nameTypeCompany}}
-                    </i>
-                {{/typesCompany}}
-            </th>
-            <th><input type="number" name="numberOfRegistryEntry"></th>
-            <th><input type="text" name="additionalAgreement"></th>
-            <th><input type="text" name="okdp2"></th>
-            <th><input type="text" name="f_i_o"></th>
+            {{#supplier}}
+                <th><input type="text" name="nameOfSupplier" required="true" value="{{nameSupplier}}"></th>
+                <th><input type="number" name="innOfSupplier" required="true" value="{{inn}}"></th>{{/supplier}}
+            {{#typeOfCompany}}
+                <th><input type="text" name="nameTypeOfCompany" value="{{nameOfTypeCompany}}"></th> {{/typeOfCompany}}
+            <th><input type="number" name="numberOfRegistryEntry" value="{{numberOfRegistryEntry}}"></th>
+            <th><input type="text" name="additionalAgreement" value="{{additionalAgreement}}"></th>
+            <th><input type="text" name="okdp2" value="{{okdp2}}"></th>
+            <th><input type="text" name="f_i_o" value="{{f_i_o}}"></th>
             <td><input type="submit" value="Сохранить"></td>
-            <td><a onclick="history.back();"><button>назад</button></a></td>
         </tr>
     </table>
-
+        <input type="hidden" value="{{id}}" name="contractId">
+    {{/contract}}
 </form>
 </body>
 </html>

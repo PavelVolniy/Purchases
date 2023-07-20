@@ -14,15 +14,16 @@
             background-color: rgb(201, 197, 197);
             border-radius: 6px;
         }
-
-
-
-
+        div{
+        float:left;
+        }
     </style>
 </head>
 <body>
-<a href="/main">Main page</a>
-
+<div>
+    <a href="/main">Main page</a> <a href="/registration">Add new user</a>
+</div>
+<br>
 <input type="hidden" name="_csrf" value="{{_csrf.token}}">
 <table style="width: 70%;">
     {{#userList}}
@@ -47,46 +48,74 @@
         </tr>
     {{/userList}}
 </table>
-<a href="/registration">Add new user</a>
 
-<table style="margin-top: 20px;">
-    <tr>
-        <th style="text-align: left;">id</th>
-        <th style="text-align: right;">Филиал</th>
-    </tr>
 
-    {{#branches}}
+<div>
+    <table style="margin-top: 20px;">
         <tr>
-            <th style="text-align: left;">{{id}}</th>
-            <th style="text-align: right;">{{name}}</th>
-            <td><a href="/branch/{{id}}">edit</a></td>
+            <th style="text-align: left;">id</th>
+            <th style="text-align: right;">Филиал</th>
         </tr>
-    {{/branches}}
 
-</table>
+        {{#branches}}
+            <tr>
+                <th style="text-align: left;">{{id}}</th>
+                <th style="text-align: right;">{{name}}</th>
+                <td><a href="/branch/{{id}}">edit</a></td>
+                <td><a href="/branch/del/{{id}}">del</a></td>
+            </tr>
+        {{/branches}}
 
-<form action="/settings" method="post">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <div><input type="text" placeholder="name of branch" name="newBranch"> <input type="submit" value="add"></div>
-</form>
+    </table>
+
+    <form action="/settings" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <div><input type="text" placeholder="name of branch" name="newBranch"> <input type="submit" value="add">
+        </div>
+    </form>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>тип закупки</th>
+        </tr>
+        {{#typesPurchase}}
+            <tr>
+                <th>{{id}}</th>
+                <th>{{nameTypeOfPurchase}}</th>
+                <td><a href="/typePurchase/{{id}}">edit</a></td>
+                <td><a href="/typePurchase/del/{{id}}">del</a></td>
+            </tr>
+        {{/typesPurchase}}
+    </table>
+    <form action="/settings/typesPurchase" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <div><input type="text" placeholder="name of type purchase" name="newTypeOfPurchase"> <input
+                type="submit"
+                value="add"></div>
+    </form>
+
+</div>
 
 <br>
 <table>
     <tr>
         <th>id</th>
-        <th>тип закупки</th>
+        <th>тип предприятия</th>
     </tr>
-    {{#types}}
+    {{#typesCompany}}
         <tr>
             <th>{{id}}</th>
-            <th>{{nameTypeOfPurchase}}</th>
-            <td><a href="/type/{{id}}">edit</a></td>
+            <th>{{nameTypeCompany}}</th>
+            <td><a href="/typeCompany/{{id}}">edit</a></td>
+            <td><a href="/typeCompany/del/{{id}}">del</a></td>
         </tr>
-    {{/types}}
+    {{/typesCompany}}
 </table>
-<form action="/settings/type" method="post">
+<form action="/settings/typeCompany" method="post">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <div><input type="text" placeholder="name of type purchase" name="newTypeOfPurchase"> <input type="submit" value="add"></div>
+    <div><input type="text" placeholder="name type of company" name="newTypeCompany"> <input type="submit"
+                                                                                             value="add">
+    </div>
 </form>
 </body>
 </html>

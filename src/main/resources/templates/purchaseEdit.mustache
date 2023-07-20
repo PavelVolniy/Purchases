@@ -3,72 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>edit purchase</title>
 </head>
 <body>
-<form action="/addPurchase" method="post">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <table border="1" align="center" style="text-align: left; margin-top: 10%;">
-        <tr>
-            <th>Филиал</th>
-            <th>Наименование</th>
-            <th>Тип</th>
-            <th>Состоялось</th>
-            <th>Дата размещения</th>
-            <th>Дата окончания</th>
-            <th>Дата рассмотрения</th>
-            <th>№ Договора</th>
-            <th>Начальная цена</th>
-        </tr>
-        <tr>
-            <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}></th>
-            <th><input type="text" name="namePurchase" required="true" value="{{namePurchase}}"></th>
-            <th>
-                {{#types}}
-                <i>
-                    <input type="radio" name="typeOfPurchase" value="{{id}}">{{nameTypeOfPurchase}}
-                </i>
-                {{/types}}
-            </th>
-            <th><input type="checkbox" name="conditionOfPurchase"></th>
-            <th><input type="date" name="dateOfPlacement" required="true"></th>
-            <th><input type="date" name="dateOfEnd" required="true"></th>
-            <th><input type="date" name="dateOfReview" required="true"></th>
-            <th><input type="text" name="numberOfContract" required="true"></th>
-            <th><input type="number" step="0.01" name="startPrice" required="true"></th>
-        </tr>
-        <tr>
-            <th>Заявок подано</th>
-            <th>Заявок допущ.</th>
-            <th>Цена заявок 1</th>
-            <th>Цена заявок 2</th>
-            <th>Разница значений</th>
-            <th>Цена договора</th>
-            <th>Экономия</th>
-            <th>№ процедуры на еис</th>
-            </th>
-        </tr>
-        <tr>
-            <th><input type="number" name="applicationSubmitted"></th>
-            <th><input type="number" name="applicationAdmitted"></th>
-            <th><input type="number" step="0.01" name="priceApplicationOne"></th>
-            <th><input type="number" step="0.01" name="priceApplicationTwo"></th>
-            <th><input type="number" step="0.01" name="differenceValues"></th>
-            <th><input type="number" step="0.01" name="priceOfContract"></th>
-            <th><input type="number" step="0.01" name="economy"></th>
-            <th><input type="number" name="numberOfProcedureOnEIS"></th>
-            <td><input type="submit" value="Сохранить"></td>
-        </tr>
-    </table>
-
-    {{#errorMessage}}
-    <script>
+<form action="/purchase/editPurchase" method="post">
+    {{#purchase}}
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <table border="1" align="center" style="text-align: left; margin-top: 10%;">
+            <tr>
+                <th>Филиал</th>
+                <th>Наименование</th>
+                <th>Тип</th>
+                <th>Состоялось</th>
+                <th>Дата размещения</th>
+                <th>Дата окончания</th>
+                <th>Дата рассмотрения</th>
+                <th>№ Договора</th>
+                <th>Начальная цена</th>
+            </tr>
+            <tr>
+                <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}>
+                </th>
+                <th><input type="text" name="namePurchase" required="true" value="{{namePurchase}}"></th>
+                <th>
+                    {{#types}}
+                        <i>
+                            <input type="radio" name="typeOfPurchase" checked value="{{id}}">{{nameTypeOfPurchase}}
+                        </i>
+                    {{/types}}
+                </th>
+                <th><input type="checkbox" name="conditionOfPurchase" value="{{conditionOfPurchase}}"></th>
+                <th><input type="date" name="dateOfPlacement" value="{{dateOfPlacement}}" required="true"></th>
+                <th><input type="date" name="dateOfEnd" value="{{dateOfEnd}}" required="true"></th>
+                <th><input type="date" name="dateOfReview" value="{{dateOfReview}}" required="true"></th>
+                <th><input type="text" name="numberOfContract" value="{{numberOfContract}}" required="true"></th>
+                <th><input type="number" step="0.01" name="startPrice" value="{{startPrice}}" required="true"></th>
+            </tr>
+            <tr>
+                <th>Заявок подано</th>
+                <th>Заявок допущ.</th>
+                <th>Цена заявок 1</th>
+                <th>Цена заявок 2</th>
+                <th>Разница значений</th>
+                <th>Цена договора</th>
+                <th>Экономия</th>
+                <th>№ процедуры на еис</th>
+                </th>
+            </tr>
+            <tr>
+                <th><input type="number" name="applicationSubmitted" value="{{applicationSubmitted}}"></th>
+                <th><input type="number" name="applicationAdmitted" value="{{applicationAdmitted}}"></th>
+                <th><input type="number" step="0.01" name="priceApplicationOne" value="{{priceApplicationOne}}"></th>
+                <th><input type="number" step="0.01" name="priceApplicationTwo" value="{{priceApplicationTwo}}"></th>
+                <th><input type="number" step="0.01" name="differenceValues" value="{{differenceValues}}"></th>
+                <th><input type="number" step="0.01" name="priceOfContract" value="{{priceOfContract}}"></th>
+                <th><input type="number" step="0.01" name="economy" value="{{economy}}"></th>
+                <th><input type="number" name="numberOfProcedureOnEIS" value="{{numberOfProcedureOnEIS}}"></th>
+                <td><input type="submit" value="Сохранить"></td>
+            </tr>
+        </table>
+        <input type="hidden" name="purchaseId" value="{{id}}">
+        {{#errorMessage}}
+            <script>
           alert("{{errorMessage}}");
-        </script>
-    {{/errorMessage}}
 
+            </script>
+        {{/errorMessage}}
+    {{/purchase}}
 </form>
 </body>
 </html>

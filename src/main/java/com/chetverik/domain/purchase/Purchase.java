@@ -2,8 +2,8 @@ package com.chetverik.domain.purchase;
 
 
 import com.chetverik.domain.Branches;
-import com.chetverik.domain.contract.Branch;
-import com.chetverik.domain.contract.TypeOfPurchase;
+import com.chetverik.domain.entityes.Branch;
+import com.chetverik.domain.entityes.TypeOfPurchase;
 
 import javax.persistence.*;
 
@@ -197,6 +197,10 @@ public class Purchase {
 
     public void setNumberOfProcedureOnEIS(int numberOfProcedureOnEIS) {
         this.numberOfProcedureOnEIS = numberOfProcedureOnEIS;
+    }
+
+    public int getNumberOfProcedureOnEIS() {
+        return numberOfProcedureOnEIS;
     }
 
     public double getPriceApplicationOne() {

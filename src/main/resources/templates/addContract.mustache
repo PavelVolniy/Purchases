@@ -23,7 +23,7 @@ input{
 </head>
 <body>
 
-<form action="/addContract" method="post" style="margin-top: 10%;">
+<form action="/contracts/addContract" method="post" style="margin-top: 10%;">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <table border="1" align="center" style="text-align: left;">
         <tr>
@@ -59,7 +59,7 @@ input{
             <th>
                 {{#types}}
                     <i>
-                        <input type="radio" name="typeOfPurchase" value="{{id}}">{{nameTypeOfPurchase}}
+                        <input type="radio" name="typeOfPurchase" checked value="{{id}}">{{nameTypeOfPurchase}}
                     </i>
                 {{/types}}
             </th>
@@ -95,12 +95,19 @@ input{
 
             <th><input type="text" name="nameOfSupplier" required="true"></th>
             <th><input type="number" name="innOfSupplier" required="true"></th>
-            <th><input type="text" name="nameTypeOfCompany"></th>
+            <th>
+                {{#typesCompany}}
+                    <i>
+                        <input type="radio" name="nameTypeOfCompany" checked value="{{id}}">{{nameTypeCompany}}
+                    </i>
+                {{/typesCompany}}
+            </th>
             <th><input type="number" name="numberOfRegistryEntry"></th>
             <th><input type="text" name="additionalAgreement"></th>
             <th><input type="text" name="okdp2"></th>
             <th><input type="text" name="f_i_o"></th>
             <td><input type="submit" value="Сохранить"></td>
+            <td><a onclick="history.back();"><button>назад</button></a></td>
         </tr>
     </table>
 

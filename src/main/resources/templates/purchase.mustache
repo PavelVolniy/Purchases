@@ -14,13 +14,11 @@
         b{
             background-color: #50c7b7;
         }
-        table{
+        #purchaseForm{
             width: 100%;
             border: 1px solid black;
             border-radius: 5px;
         }
-
-
 
 
     </style>
@@ -28,7 +26,7 @@
 </head>
 <body>
 <a href="/main">Main page</a>
-<table>
+<table id="purchaseForm">
     <tr>
         {{#names}}
             <th>
@@ -43,7 +41,7 @@
             <th class="namePurchase"><b>{{namePurchase}}</b></th>
             <th class="typeOfPurchase"><b>{{#typeOfPurchase}}{{nameTypeOfPurchase}}{{/typeOfPurchase}}</b></th>
             <th class="conditionOfPurchase"><b>{{#conditionOfPurchase}}да{{/conditionOfPurchase}}
-            {{^conditionOfPurchase}}нет{{/conditionOfPurchase}}</b></th>
+                {{^conditionOfPurchase}}нет{{/conditionOfPurchase}}</b></th>
             <th class="dateOfPlacement"><b>{{dateOfPlacement}}</b></th>
             <th class="dateOfEnd"><b>{{dateOfEnd}}</b></th>
             <th class="dateOfReview"><b>{{dateOfReview}}</b></th>
@@ -58,15 +56,31 @@
             <th class="economy"><b>{{economy}}</b></th>
             <th class="numberOfProcedureOnEIS"><b>{{numberOfProcedureOnEIS}}</b></th>
 
-            <td><a href="/purchase/{{id}}">Edit</a></td>
+            <td><a href="/purchase/editPurchase/{{id}}">
+                <button>edit</button>
+            </a></td>
+            <td><a href="/purchase/editPurchase/del/{{id}}">
+                <button>del</button>
+            </a></td>
         </tr>
     {{/purchases}}
 
 </table>
-<a href="/addPurchase">Add new purchase</a>
 </form>
-<script>
-    
-</script>
+<table>
+
+    <tr>
+        <th>
+            <a href="/purchase/addPurchase">
+                <button>добавить новую закупку</button>
+            </a>
+        </th>
+        <th>
+            <a href="/main">
+                <button>назад</button>
+            </a>
+        </th>
+    </tr>
+</table>
 </body>
 </html>

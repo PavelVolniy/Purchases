@@ -18,6 +18,11 @@
     {{#branches}}
         <div><input type="radio" name="branch" id="{{id}}" value="{{name}}" required="true"><label for="{{id}}">{{name}}</label></div>
     {{/branches}}
+    {{#roleList}}
+        <div>
+                <label><input type="checkbox" name="{{.}}"> {{.}} </label>
+        </div>
+    {{/roleList}}
     <div><input type="submit" value="Registration"></div>
 </form>
 

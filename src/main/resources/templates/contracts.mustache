@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contracts</title>
     <style>
+        .inner{
+            display: block;
+        }
+        
         td{
             border: 1px solid #333;
         }
@@ -15,7 +19,7 @@
         b{
             background-color: #50c7b7;
         }
-        table{
+        #contractsForm{
             width: 100%;
             border: 1px solid black;
             border-radius: 5px;
@@ -24,13 +28,15 @@
     </style>
 </head>
 <body>
-<form action="/delContract" method="post">
+<form action="/contracts/delContract" method="post">
 
-    <table title="Contracts list">
+    <table title="Contracts list" id="contractsForm">
         <tr>
             {{#names}}
                 <th>{{.}}</th>
             {{/names}}
+            <th> </th>
+            <th> </th>
         </tr>
 
         {{#contracts}}
@@ -50,6 +56,8 @@
                 <th>{{additionalAgreement}}</th>
                 <th>{{okdp2}}</th>
                 <th>{{f_i_o}}</th>
+                <td><a href="/contracts/editContract/{{id}}"><button>edit</button></a></td>
+                <td><a href="/contracts/editContract/del/{{id}}"><button>del</button></a></td>
             </tr>
         {{/contracts}}
 
@@ -57,11 +65,26 @@
 
 </form>
 <br>
-<div><a href="/addContract">Add new contract</a> or <a href="/main">main page</a></div>
-<br>
-<form action="/clearContractList" method="get">
-    <input name="clear list of contracts" type="submit" value="Clear list">
-</form>
+<table>
+<tr>
+    <th>
+        <form action="/contracts/addContract">
+            <button type="submit">добавить договор</button>
+        </form>
+    </th>
+    <th>
+        <form action="/main">
+            <button type="submit">назад</button>
+        </form>
+    </th>
+</tr>
+</table>
+        
+        
+    <form action="/contracts/clearContractList" method="get">
+        <input name="clear list of contracts" type="submit" value="Clear list">
+    </form>
+
 
 </body>
 </html>

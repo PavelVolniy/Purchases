@@ -1,4 +1,4 @@
-package com.chetverik.domain.contract;
+package com.chetverik.domain.entityes;
 
 import javax.persistence.*;
 

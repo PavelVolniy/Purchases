@@ -2,7 +2,7 @@ package com.chetverik.domain.user;
 
 
 import com.chetverik.domain.Branches;
-import com.chetverik.domain.contract.Branch;
+import com.chetverik.domain.entityes.Branch;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

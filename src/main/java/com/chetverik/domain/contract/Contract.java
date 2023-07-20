@@ -2,6 +2,10 @@ package com.chetverik.domain.contract;
 
 
 import com.chetverik.domain.Branches;
+import com.chetverik.domain.entityes.Branch;
+import com.chetverik.domain.entityes.Supplier;
+import com.chetverik.domain.entityes.TypeCompany;
+import com.chetverik.domain.entityes.TypeOfPurchase;
 
 import javax.persistence.*;
 

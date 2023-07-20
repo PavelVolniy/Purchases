@@ -26,6 +26,7 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("branches", branchRepo.findAll());
+        model.addAttribute("roleList", Role.values());
         return "registration";
     }
 
@@ -48,7 +49,7 @@ public class RegistrationController {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.MANAGER));
         userRepo.save(user);
-        return "redirect:/login";
+        return "redirect:/settings";
     }
 
     @GetMapping("/login")
