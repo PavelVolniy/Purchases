@@ -25,65 +25,67 @@
             border-radius: 5px;
         }
 
+
     </style>
 </head>
 <body>
-<form action="/contracts/delContract" method="post">
-
     <table title="Contracts list" id="contractsForm">
         <tr>
             {{#names}}
                 <th>{{.}}</th>
             {{/names}}
-            <th> </th>
-            <th> </th>
+            <th>создал</th>
+            <th></th>
+            <th></th>
         </tr>
 
         {{#contracts}}
             <tr>
-                {{#branch}}<th>{{name}}</th>{{/branch}}
+                {{#branch}}
+                    <th>{{name}}</th>{{/branch}}
                 <th>{{nameOfContract}}</th>
                 <th>{{pp_poz_ep}}</th>
-                {{#typeOfPurchase}} <th>{{nameTypeOfPurchase}}</th> {{/typeOfPurchase}}
+                {{#typeOfPurchase}}
+                    <th>{{nameTypeOfPurchase}}</th> {{/typeOfPurchase}}
                 <th>{{numberOfContract}}</th>
                 <th>{{dateOfContract}}</th>
                 <th>{{sum}}</th>
                 <th>{{dateOfExecutionContract}}</th>
-                {{#supplier}}<th>{{nameSupplier}}</th>
-                <th>{{inn}}</th>{{/supplier}}
-                {{#typeOfCompany}}<th>{{nameOfTypeCompany}}</th>{{/typeOfCompany}}
+                {{#supplier}}
+                    <th>{{nameSupplier}}</th>
+                    <th>{{inn}}</th>{{/supplier}}
+                {{#typeOfCompany}}<th>{{nameTypeCompany}}</th>{{/typeOfCompany}}
                 <th>{{numberOfRegistryEntry}}</th>
                 <th>{{additionalAgreement}}</th>
                 <th>{{okdp2}}</th>
                 <th>{{f_i_o}}</th>
+                <th>{{user.username}}</th>
                 <td><a href="/contracts/editContract/{{id}}"><button>edit</button></a></td>
                 <td><a href="/contracts/editContract/del/{{id}}"><button>del</button></a></td>
             </tr>
         {{/contracts}}
 
     </table>
-
-</form>
 <br>
 <table>
-<tr>
-    <th>
-        <form action="/contracts/addContract">
-            <button type="submit">добавить договор</button>
-        </form>
-    </th>
-    <th>
-        <form action="/main">
-            <button type="submit">назад</button>
-        </form>
-    </th>
-</tr>
+    <tr>
+        <th>
+            <form action="/contracts/addContract">
+                <button type="submit">добавить договор</button>
+            </form>
+        </th>
+        <th>
+            <form action="/main">
+                <button type="submit">назад</button>
+            </form>
+        </th>
+    </tr>
 </table>
-        
-        
-    <form action="/contracts/clearContractList" method="get">
-        <input name="clear list of contracts" type="submit" value="Clear list">
-    </form>
+
+
+<form action="/contracts/clearContractList" method="get">
+    <input name="clear list of contracts" type="submit" value="Clear list">
+</form>
 
 
 </body>

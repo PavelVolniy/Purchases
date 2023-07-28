@@ -4,6 +4,7 @@ package com.chetverik.domain.purchase;
 import com.chetverik.domain.Branches;
 import com.chetverik.domain.entityes.Branch;
 import com.chetverik.domain.entityes.TypeOfPurchase;
+import com.chetverik.domain.user.User;
 
 import javax.persistence.*;
 
@@ -34,15 +35,17 @@ public class Purchase {
     private double priceOfContract;
     private double economy;
     private int numberOfProcedureOnEIS;
-
+    @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
+    @OneToOne
+    private User user;
 
     public Purchase() {
     }
 
     public Purchase(Branch branch,
                     String namePurchase,
-                    TypeOfPurchase type,
-                    boolean condition,
+                    TypeOfPurchase typeOfPurchase,
+                    boolean conditionOfPurchase,
                     String dateOfPlacement,
                     String dateOfEnd,
                     String dateOfReview,
@@ -55,11 +58,12 @@ public class Purchase {
                     double differenceValues,
                     double priceOfContract,
                     double economy,
-                    int numberOfProcedureOnEIS) {
+                    int numberOfProcedureOnEIS,
+                    User user) {
         this.branch = branch;
         this.namePurchase = namePurchase;
-        this.typeOfPurchase = type;
-        this.conditionOfPurchase = condition;
+        this.typeOfPurchase = typeOfPurchase;
+        this.conditionOfPurchase = conditionOfPurchase;
         this.dateOfPlacement = dateOfPlacement;
         this.dateOfEnd = dateOfEnd;
         this.dateOfReview = dateOfReview;
@@ -73,6 +77,7 @@ public class Purchase {
         this.priceOfContract = priceOfContract;
         this.economy = economy;
         this.numberOfProcedureOnEIS = numberOfProcedureOnEIS;
+        this.user = user;
     }
 
     @Override
@@ -97,6 +102,14 @@ public class Purchase {
                 ", economy=" + economy +
                 ", numberOfProcedureOnEIS='" + numberOfProcedureOnEIS + '\'' +
                 '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {

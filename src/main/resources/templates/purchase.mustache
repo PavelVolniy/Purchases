@@ -21,6 +21,7 @@
         }
 
 
+
     </style>
 
 </head>
@@ -33,6 +34,10 @@
                 {{.}}
             </th>
         {{/names}}
+
+        <th>создал</th>
+        <th></th>
+        <th></th>
     </tr>
 
     {{#purchases}}
@@ -55,18 +60,14 @@
             <th class="priceOfContract"><b>{{priceOfContract}}</b></th>
             <th class="economy"><b>{{economy}}</b></th>
             <th class="numberOfProcedureOnEIS"><b>{{numberOfProcedureOnEIS}}</b></th>
-
-            <td><a href="/purchase/editPurchase/{{id}}">
-                <button>edit</button>
-            </a></td>
-            <td><a href="/purchase/editPurchase/del/{{id}}">
-                <button>del</button>
-            </a></td>
+            <th>{{user.username}}</th>
+            <td><a href="/purchase/editPurchase/{{id}}"><button>edit</button></a></td>
+            <td><a href="/purchase/editPurchase/del/{{id}}"><button>del</button></a></td>
+            <td>{{#conditionOfPurchase}} <a href="/contracts/addContract"><button>create contract</button></a>{{/conditionOfPurchase}}</td>
         </tr>
     {{/purchases}}
 
 </table>
-</form>
 <table>
 
     <tr>

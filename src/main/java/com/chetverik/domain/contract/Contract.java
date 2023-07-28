@@ -6,6 +6,7 @@ import com.chetverik.domain.entityes.Branch;
 import com.chetverik.domain.entityes.Supplier;
 import com.chetverik.domain.entityes.TypeCompany;
 import com.chetverik.domain.entityes.TypeOfPurchase;
+import com.chetverik.domain.user.User;
 
 import javax.persistence.*;
 
@@ -38,6 +39,10 @@ public class Contract {
     private String okdp2;
     private String f_i_o;
 
+    @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
+    @OneToOne
+    private User user;
+
     public Contract() {
     }
 
@@ -54,7 +59,8 @@ public class Contract {
                     String numberOfRegistryEntry,
                     String additionalAgreement,
                     String okdp2,
-                    String f_i_o) {
+                    String f_i_o,
+                    User user) {
         this.branch = branch;
         this.nameOfContract = nameOfContract;
         this.pp_poz_ep = pp_poz_ep;
@@ -69,6 +75,7 @@ public class Contract {
         this.additionalAgreement = additionalAgreement;
         this.okdp2 = okdp2;
         this.f_i_o = f_i_o;
+        this.user = user;
     }
 
     @Override
@@ -90,6 +97,14 @@ public class Contract {
                 ", okdp2='" + okdp2 + '\'' +
                 ", f_i_o='" + f_i_o + '\'' +
                 '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {

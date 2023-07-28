@@ -1,7 +1,8 @@
 package com.chetverik.controllers;
 
 import com.chetverik.components.IAuthenticationFacade;
-import com.chetverik.domain.contract.*;
+import com.chetverik.domain.contract.Contract;
+import com.chetverik.domain.contract.ContractFieldNames;
 import com.chetverik.domain.entityes.Supplier;
 import com.chetverik.domain.entityes.TypeCompany;
 import com.chetverik.domain.entityes.TypeOfPurchase;
@@ -57,18 +58,19 @@ public class ContractsController {
     public String editContractForm(@PathVariable String id, Model model) {
         Long contractId = Long.valueOf(id);
         Iterable<Contract> contract = contractRepo.findAllById(Collections.singleton(contractId));
-        if (contract.iterator().next().getBranch() == getCurrentUser().getBranch() || getCurrentUser().getRoles().contains(Role.ADMIN)){
+        if (contract.iterator().next().getBranch() == getCurrentUser().getBranch() || getCurrentUser().getRoles().contains(Role.ADMIN)) {
             model.addAttribute("contract", contract);
             model.addAttribute("types", typePurchaseRepo.findAll());
+            model.addAttribute("typesCompany", typeCompanyRepo.findAll());
             return "editContract";
         } else {
             return "redirect:/contracts";
         }
     }
 
-    @GetMapping("/contracts/editContract/del/{id}")
-    public String delContract(@PathVariable String id){
-        if (id!=null && !id.isEmpty()){
+    @GetMapping("/editContract/del/{id}")
+    public String delContract(@PathVariable String id) {
+        if (id != null && !id.isEmpty()) {
             Long contractId = Long.valueOf(id);
             contractRepo.deleteById(contractId);
         }
@@ -87,17 +89,22 @@ public class ContractsController {
             @RequestParam String dateOfExecutionContract,
             @RequestParam String nameOfSupplier,
             @RequestParam(defaultValue = "000") int innOfSupplier,
-            @RequestParam(defaultValue = "non") String nameTypeOfCompany,
+            @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
             @RequestParam String additionalAgreement,
             @RequestParam String okdp2,
             @RequestParam String f_i_o
     ) {
-        Supplier supplier = new Supplier(innOfSupplier, nameOfSupplier);
-        TypeCompany typeCompany = new TypeCompany(nameTypeOfCompany);
-            supplierRepo.save(supplier);
-            typeCompanyRepo.save(typeCompany);
-
+        if (nameOfSupplier != null) {
+            Supplier bynameSupplier = supplierRepo.findBynameSupplier(nameOfSupplier);
+            if (bynameSupplier != null) {
+                contract.setSupplier(supplierRepo.findBynameSupplier(nameOfSupplier));
+            } else {
+                Supplier supplier = new Supplier(innOfSupplier, nameOfSupplier);
+                contract.setSupplier(supplier);
+                supplierRepo.save(supplier);
+            }
+        }
         contract.setNameOfContract(nameOfContract);
         contract.setPp_poz_ep(pp_poz_ep);
         contract.setTypeOfPurchase(typeOfPurchase);
@@ -105,8 +112,7 @@ public class ContractsController {
         contract.setDateOfContract(dateOfContract);
         contract.setSum(sum);
         contract.setDateOfExecutionContract(dateOfExecutionContract);
-        contract.setSupplier(supplier);
-        contract.setTypeOfCompany(typeCompany);
+        contract.setTypeOfCompany(typeOfCompany);
         contract.setNumberOfRegistryEntry(numberOfRegistryEntry);
         contract.setAdditionalAgreement(additionalAgreement);
         contract.setOkdp2(okdp2);
@@ -138,7 +144,7 @@ public class ContractsController {
             @RequestParam String dateOfExecutionContract,
             @RequestParam String nameOfSupplier,
             @RequestParam(defaultValue = "000") int innOfSupplier,
-            @RequestParam(defaultValue = "non") String nameTypeOfCompany,
+            @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
             @RequestParam String additionalAgreement,
             @RequestParam String okdp2,
@@ -147,11 +153,10 @@ public class ContractsController {
         Contract newContract;
         Supplier supplier;
         TypeCompany typeCompany;
-        if (typeOfPurchase != null && innOfSupplier != 0 && !nameOfSupplier.isEmpty() && !nameTypeOfCompany.isEmpty()) {
+        if (typeOfPurchase != null && innOfSupplier != 0 && !nameOfSupplier.isEmpty() && typeOfCompany != null) {
             supplier = new Supplier(innOfSupplier, nameOfSupplier);
-            typeCompany = new TypeCompany(nameTypeOfCompany);
             supplierRepo.save(supplier);
-            typeCompanyRepo.save(typeCompany);
+            User user = userRepo.findByUsername(getCurrentUser().getUsername());
             newContract = new Contract(
                     getCurrentUser().getBranch(),
                     nameOfContract,
@@ -162,11 +167,12 @@ public class ContractsController {
                     sum,
                     dateOfExecutionContract,
                     supplier,
-                    typeCompany,
+                    typeOfCompany,
                     numberOfRegistryEntry,
                     additionalAgreement,
                     okdp2,
-                    f_i_o);
+                    f_i_o,
+                    user);
             contractRepo.save(newContract);
         }
         return "redirect:/contracts";

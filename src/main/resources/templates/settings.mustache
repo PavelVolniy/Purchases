@@ -17,6 +17,7 @@
         div{
         float:left;
         }
+
     </style>
 </head>
 <body>
@@ -29,20 +30,20 @@
     {{#userList}}
         <tr>
             <th class="id"><b>id- </b>
-                <f>{{id}}</f>
+                <i>{{id}}</i>
             </th>
             <th class="name"><b>name - </b>
-                <f>{{username}}</f>
+                <i>{{username}}</i>
             </th>
             <th class="password"><b>password - </b>
-                <f>{{password}}</f>
+                <i>{{password}}</i>
             </th>
             <th class="role"><b>role - </b>
-                <f>{{roles}}</f>
+                <i>{{roles}}</i>
             </th>
             <th class="branch"><b>branch-</b>{{#branch}}{{name}}{{/branch}}</th>
             <th class="active"><b>active - </b>
-                <f>{{active}}</f>
+                <i>{{active}}</i>
             </th>
             <td><a href="/user/{{id}}">edit</a></td>
         </tr>
@@ -97,25 +98,47 @@
 </div>
 
 <br>
-<table>
-    <tr>
-        <th>id</th>
-        <th>тип предприятия</th>
-    </tr>
-    {{#typesCompany}}
+<div>
+    <table>
         <tr>
-            <th>{{id}}</th>
-            <th>{{nameTypeCompany}}</th>
-            <td><a href="/typeCompany/{{id}}">edit</a></td>
-            <td><a href="/typeCompany/del/{{id}}">del</a></td>
+            <th>id</th>
+            <th>тип предприятия</th>
         </tr>
-    {{/typesCompany}}
-</table>
-<form action="/settings/typeCompany" method="post">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <div><input type="text" placeholder="name type of company" name="newTypeCompany"> <input type="submit"
-                                                                                             value="add">
-    </div>
-</form>
+        {{#typesCompany}}
+            <tr>
+                <th>{{id}}</th>
+                <th>{{nameTypeCompany}}</th>
+                <td><a href="/typeCompany/{{id}}">edit</a></td>
+                <td><a href="/typeCompany/del/{{id}}">del</a></td>
+            </tr>
+        {{/typesCompany}}
+    </table>
+
+    <form action="/settings/typeCompany" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <div><input type="text" placeholder="name type of company" name="newTypeCompany"> <input type="submit"
+                                                                                                 value="add">
+        </div>
+    </form>
+</div>
+
+<div style="margin: 10px;">
+    <table>
+        <tr>
+            <th>INN</th>
+            <th>Suppliers</th>
+        </tr>
+        {{#suppliers}}
+            <tr>
+                <th>{{inn}}</th>
+                <th>{{nameSupplier}}</th>
+            </tr>
+        {{/suppliers}}
+    </table>
+
+    <form>
+        <input type="submit" disabled value="clear">
+    </form>
+</div>
 </body>
 </html>

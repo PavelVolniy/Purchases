@@ -84,13 +84,19 @@
             {{#supplier}}
                 <th><input type="text" name="nameOfSupplier" required="true" value="{{nameSupplier}}"></th>
                 <th><input type="number" name="innOfSupplier" required="true" value="{{inn}}"></th>{{/supplier}}
-            {{#typeOfCompany}}
-                <th><input type="text" name="nameTypeOfCompany" value="{{nameOfTypeCompany}}"></th> {{/typeOfCompany}}
+            <th>
+                {{#typesCompany}}
+                    <i>
+                        <input type="radio" name="typeOfCompany" checked required="true" value="{{id}}">{{nameTypeCompany}}
+                    </i>
+                {{/typesCompany}}
+            </th>
             <th><input type="number" name="numberOfRegistryEntry" value="{{numberOfRegistryEntry}}"></th>
             <th><input type="text" name="additionalAgreement" value="{{additionalAgreement}}"></th>
             <th><input type="text" name="okdp2" value="{{okdp2}}"></th>
             <th><input type="text" name="f_i_o" value="{{f_i_o}}"></th>
             <td><input type="submit" value="Сохранить"></td>
+            <td><a href="/contracts"><button>назад</button></a></td>
         </tr>
     </table>
         <input type="hidden" value="{{id}}" name="contractId">

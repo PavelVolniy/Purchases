@@ -4,6 +4,7 @@ import com.chetverik.domain.entityes.Branch
 import com.chetverik.domain.entityes.TypeCompany
 import com.chetverik.domain.entityes.TypeOfPurchase
 import com.chetverik.repositories.BranchRepo
+import com.chetverik.repositories.SupplierRepo
 import com.chetverik.repositories.TypeCompanyRepo
 import com.chetverik.repositories.TypePurchaseRepo
 import com.chetverik.repositories.UserRepo
@@ -23,6 +24,7 @@ open class SettingsController(
     private val branchRepo: BranchRepo,
     private val typeOfPurchaseRepo: TypePurchaseRepo,
     private val typeCompanyRepo: TypeCompanyRepo,
+    private val supplierRepo: SupplierRepo
 ) {
 
 
@@ -33,12 +35,13 @@ open class SettingsController(
         model.addAttribute("branches", branchRepo.findAll())
         model.addAttribute("typesPurchase", typeOfPurchaseRepo.findAll())
         model.addAttribute("typesCompany", typeCompanyRepo.findAll())
+        model.addAttribute("suppliers", supplierRepo.findAll())
         return "settings"
     }
 
     @PostMapping("/settings")
     open fun addNewBranch(@RequestParam newBranch: String, model: Model): String {
-        if (newBranch != null && newBranch.isNotEmpty()) {
+        if (newBranch.isNotEmpty()) {
             val findByNameBranch = branchRepo.findByName(newBranch)
             if (findByNameBranch != null) {
                 model.addAttribute("errorMessage", "branch is exist")

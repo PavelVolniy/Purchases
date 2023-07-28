@@ -4,4 +4,5 @@ import com.chetverik.domain.entityes.Supplier;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SupplierRepo extends CrudRepository<Supplier, Long> {
+    Supplier findBynameSupplier(String nameSupplier);
 }

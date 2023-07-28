@@ -34,19 +34,18 @@ open class PurchaseController(
     open fun editPurchaseForm(@PathVariable id: String, model: Model): String {
         val purchaseId: Long = id.toLong()
         val findById = purchaseRepo.findAllById(Collections.singleton(purchaseId))
-        if (findById.first().branch==getCurrentUser().branch || getCurrentUser().roles.contains(Role.ADMIN)){
+        if (findById.first().branch == getCurrentUser().branch || getCurrentUser().roles.contains(Role.ADMIN)) {
             model.addAttribute("purchase", findById)
             model.addAttribute("types", typeOfPurchaseRepo.findAll())
-            return "purchaseEdit"
-        }
-        else {
+            return "editPurchase"
+        } else {
             return "redirect:/purchase"
         }
     }
 
     @GetMapping("/editPurchase/del/{id}")
-    open fun delPurchase(@PathVariable id: String): String{
-        if (id.isNotEmpty()){
+    open fun delPurchase(@PathVariable id: String): String {
+        if (id.isNotEmpty()) {
             purchaseRepo.deleteById(id.toLong())
         }
         return "redirect:/purchase"
@@ -75,7 +74,11 @@ open class PurchaseController(
         if (namePurchase.isNotEmpty()) {
             purchase.namePurchase = namePurchase
             purchase.typeOfPurchase = typeOfPurchase
-            purchase.isConditionOfPurchase = conditionOfPurchase
+            if (conditionOfPurchase == null) {
+                purchase.isConditionOfPurchase = false
+            } else {
+                purchase.isConditionOfPurchase = conditionOfPurchase
+            }
             purchase.dateOfPlacement = dateOfPlacement
             purchase.dateOfEnd = dateOfEnd
             purchase.dateOfReview = dateOfReview
@@ -139,10 +142,11 @@ open class PurchaseController(
             differenceValues,
             priceOfContract,
             economy,
-            numberOfProcedureOnEIS
+            numberOfProcedureOnEIS,
+            userRepo.findByUsername(getCurrentUser().username)
         )
         val byName = purchaseRepo.findByNamePurchase(newPurchase.namePurchase)
-            purchaseRepo.save(newPurchase)
+        purchaseRepo.save(newPurchase)
         return "redirect:/purchase"
     }
 
