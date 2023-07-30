@@ -4,6 +4,7 @@ import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
 import com.chetverik.repositories.BranchRepo;
 import com.chetverik.repositories.UserRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Collections;
 
 @Controller
+@AllArgsConstructor
 public class RegistrationController {
     private UserRepo userRepo;
     private BranchRepo branchRepo;
-
-    public RegistrationController(UserRepo userRepo, BranchRepo branchRepo) {
-        this.userRepo = userRepo;
-        this.branchRepo = branchRepo;
-    }
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -31,6 +28,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
+    @PreAuthorize("hasAuthority('SUPERUSER')")
     public String addUser(
             @RequestParam String username,
             @RequestParam String password,

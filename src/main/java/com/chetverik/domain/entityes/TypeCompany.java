@@ -1,8 +1,13 @@
 package com.chetverik.domain.entityes;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "type_of_company")
 public class TypeCompany {
     @Id
@@ -10,27 +15,9 @@ public class TypeCompany {
     private long id;
     private String nameTypeCompany;
 
-    public TypeCompany() {
-    }
 
     public TypeCompany(String nameOfTypeCompany) {
         this.nameTypeCompany = nameOfTypeCompany;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNameTypeCompany() {
-        return nameTypeCompany;
-    }
-
-    public void setNameTypeCompany(String nameTypeCompany) {
-        this.nameTypeCompany = nameTypeCompany;
     }
 
     @Override

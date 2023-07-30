@@ -9,6 +9,7 @@ import com.chetverik.domain.entityes.TypeOfPurchase;
 import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
 import com.chetverik.repositories.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/contracts")
 public class ContractsController {
     private ContractRepository contractRepo;
@@ -25,22 +27,6 @@ public class ContractsController {
     private TypePurchaseRepo typePurchaseRepo;
     private SupplierRepo supplierRepo;
     private TypeCompanyRepo typeCompanyRepo;
-
-    public ContractsController(ContractRepository contractRepository,
-                               BranchRepo branchRepo,
-                               IAuthenticationFacade authenticationFacade,
-                               UserRepo userRepo,
-                               TypePurchaseRepo typePurchaseRepo,
-                               SupplierRepo supplierRepo,
-                               TypeCompanyRepo typeCompanyRepo) {
-        this.contractRepo = contractRepository;
-        this.branchRepo = branchRepo;
-        this.authenticationFacade = authenticationFacade;
-        this.userRepo = userRepo;
-        this.typePurchaseRepo = typePurchaseRepo;
-        this.supplierRepo = supplierRepo;
-        this.typeCompanyRepo = typeCompanyRepo;
-    }
 
     @GetMapping()
     public String getContractsList(Model model) {

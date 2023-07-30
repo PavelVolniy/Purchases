@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import kotlin.math.abs
 
 @Controller
 @RequestMapping("/purchase")
@@ -88,7 +89,7 @@ open class PurchaseController(
             purchase.applicationAdmitted = applicationAdmitted
             purchase.priceApplicationOne = priceApplicationOne
             purchase.priceApplicationTwo = priceApplicationTwo
-            purchase.differenceValues = differenceValues
+            purchase.differenceValues = abs(priceApplicationOne - priceApplicationTwo)
             purchase.priceOfContract = priceOfContract
             purchase.economy = economy
             purchase.numberOfProcedureOnEIS = numberOfProcedureOnEIS
@@ -125,6 +126,12 @@ open class PurchaseController(
         @RequestParam(defaultValue = "0") numberOfProcedureOnEIS: Int,
         model: Model,
     ): String {
+        var difference: Double
+        if (priceApplicationOne > priceApplicationTwo) {
+            difference = priceApplicationOne - priceApplicationTwo
+        } else {
+            difference = differenceValues
+        }
         val newPurchase = Purchase(
             getCurrentUser().branch,
             namePurchase,
@@ -139,13 +146,13 @@ open class PurchaseController(
             applicationAdmitted,
             priceApplicationOne,
             priceApplicationTwo,
-            differenceValues,
+            difference,
             priceOfContract,
             economy,
             numberOfProcedureOnEIS,
             userRepo.findByUsername(getCurrentUser().username)
         )
-        val byName = purchaseRepo.findByNamePurchase(newPurchase.namePurchase)
+//        val byName = purchaseRepo.findByNamePurchase(newPurchase.namePurchase)
         purchaseRepo.save(newPurchase)
         return "redirect:/purchase"
     }

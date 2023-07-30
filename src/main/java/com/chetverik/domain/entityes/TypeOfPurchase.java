@@ -1,9 +1,14 @@
 package com.chetverik.domain.entityes;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "TypesOfPurchase")
 public class TypeOfPurchase {
     @Id
@@ -11,18 +16,7 @@ public class TypeOfPurchase {
     private Long id;
     private String nameTypeOfPurchase;
 
-    public TypeOfPurchase() {
-    }
-
     public TypeOfPurchase(String nameTypeOfPurchase) {
-        this.nameTypeOfPurchase = nameTypeOfPurchase;
-    }
-
-    public String getNameTypeOfPurchase() {
-        return nameTypeOfPurchase;
-    }
-
-    public void setNameTypeOfPurchase(String nameTypeOfPurchase) {
         this.nameTypeOfPurchase = nameTypeOfPurchase;
     }
 

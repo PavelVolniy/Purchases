@@ -8,6 +8,8 @@ import com.chetverik.repositories.SupplierRepo
 import com.chetverik.repositories.TypeCompanyRepo
 import com.chetverik.repositories.TypePurchaseRepo
 import com.chetverik.repositories.UserRepo
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.ss.usermodel.Workbook
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
+import javax.servlet.http.HttpServletResponse
 
 @Controller
 @PreAuthorize("hasAuthority('SUPERUSER')")
@@ -24,7 +29,7 @@ open class SettingsController(
     private val branchRepo: BranchRepo,
     private val typeOfPurchaseRepo: TypePurchaseRepo,
     private val typeCompanyRepo: TypeCompanyRepo,
-    private val supplierRepo: SupplierRepo
+    private val supplierRepo: SupplierRepo,
 ) {
 
 
@@ -36,6 +41,7 @@ open class SettingsController(
         model.addAttribute("typesPurchase", typeOfPurchaseRepo.findAll())
         model.addAttribute("typesCompany", typeCompanyRepo.findAll())
         model.addAttribute("suppliers", supplierRepo.findAll())
+        model.addAttribute("currentDate", SimpleDateFormat("dd.MM.yyyy").format(Date()))
         return "settings"
     }
 
@@ -107,8 +113,8 @@ open class SettingsController(
     }
 
     @GetMapping("/typeCompany/del/{id}")
-    open fun delTypeCompany(@PathVariable id: String): String{
-        if (id.isNotEmpty()){
+    open fun delTypeCompany(@PathVariable id: String): String {
+        if (id.isNotEmpty()) {
             typeCompanyRepo.deleteById(id.toLong())
         }
         return "redirect:/settings"
@@ -119,7 +125,7 @@ open class SettingsController(
         @RequestParam newNameTypeCompany: String,
         @RequestParam("typeCompanyId") typeCompany: TypeCompany,
     ): String {
-        if (newNameTypeCompany.isNotEmpty()){
+        if (newNameTypeCompany.isNotEmpty()) {
             typeCompany.nameTypeCompany = newNameTypeCompany
             typeCompanyRepo.save(typeCompany)
         }
@@ -156,4 +162,15 @@ open class SettingsController(
         typeOfPurchaseRepo.save(type)
         return "redirect:/settings"
     }
+
+    @GetMapping("/exportTables")
+    open fun exportTablesPurchase(response : HttpServletResponse): String {
+        response.contentType = "application/octet-stream"
+        val headerKey = "Content-Disposition"
+        val headerValue = "attachment; filename=Contracts_${Date()}.xlsx"
+        response.setHeader(headerKey, headerValue)
+
+        return "redirect:/settings"
+    }
+
 }

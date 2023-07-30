@@ -3,6 +3,8 @@ package com.chetverik.domain.user;
 
 import com.chetverik.domain.Branches;
 import com.chetverik.domain.entityes.Branch;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,6 +13,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "usr")
 public class User implements UserDetails {
     @Id
@@ -38,7 +41,34 @@ public class User implements UserDetails {
         this.branch = branch;
     }
 
-    public User() {
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public User(String username, String password, Set<Role> roles, Branch branch, boolean active) {
@@ -47,18 +77,6 @@ public class User implements UserDetails {
         this.roles = roles;
         this.branch = branch;
         this.active = active;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -88,30 +106,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     @Override

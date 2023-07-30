@@ -25,7 +25,7 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String start(){
+    public String start() {
         return "redirect:/main";
     }
 

@@ -5,10 +5,12 @@ import com.chetverik.domain.Branches;
 import com.chetverik.domain.entityes.Branch;
 import com.chetverik.domain.entityes.TypeOfPurchase;
 import com.chetverik.domain.user.User;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "purchases")
 public class Purchase {
     @Id
@@ -38,9 +40,6 @@ public class Purchase {
     @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
     @OneToOne
     private User user;
-
-    public Purchase() {
-    }
 
     public Purchase(Branch branch,
                     String namePurchase,
@@ -102,22 +101,6 @@ public class Purchase {
                 ", economy=" + economy +
                 ", numberOfProcedureOnEIS='" + numberOfProcedureOnEIS + '\'' +
                 '}';
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Branch getBranch() {
@@ -208,14 +191,6 @@ public class Purchase {
         this.applicationAdmitted = applicationAdmitted;
     }
 
-    public void setNumberOfProcedureOnEIS(int numberOfProcedureOnEIS) {
-        this.numberOfProcedureOnEIS = numberOfProcedureOnEIS;
-    }
-
-    public int getNumberOfProcedureOnEIS() {
-        return numberOfProcedureOnEIS;
-    }
-
     public double getPriceApplicationOne() {
         return priceApplicationOne;
     }
@@ -254,5 +229,21 @@ public class Purchase {
 
     public void setEconomy(double economy) {
         this.economy = economy;
+    }
+
+    public int getNumberOfProcedureOnEIS() {
+        return numberOfProcedureOnEIS;
+    }
+
+    public void setNumberOfProcedureOnEIS(int numberOfProcedureOnEIS) {
+        this.numberOfProcedureOnEIS = numberOfProcedureOnEIS;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

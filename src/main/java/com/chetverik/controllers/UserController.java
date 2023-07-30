@@ -4,6 +4,7 @@ import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
 import com.chetverik.repositories.BranchRepo;
 import com.chetverik.repositories.UserRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,17 +17,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/user")
 @PreAuthorize("hasAuthority('SUPERUSER')")
 public class UserController {
 
     private UserRepo userRepo;
     private BranchRepo branchRepo;
-
-    public UserController(UserRepo userRepo, BranchRepo branchRepo) {
-        this.userRepo = userRepo;
-        this.branchRepo = branchRepo;
-    }
 
     @GetMapping
     public String getUserKList(Model model) {
@@ -76,7 +73,7 @@ public class UserController {
     public String deleteUser(
             @RequestParam("userId") User user
     ) {
-            userRepo.delete(user);
+        userRepo.delete(user);
         return "redirect:/user";
     }
 
