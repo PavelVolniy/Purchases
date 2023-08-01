@@ -63,7 +63,7 @@
             <th>{{user.username}}</th>
             <td><a href="/purchase/editPurchase/{{id}}"><button>edit</button></a></td>
             <td><a href="/purchase/editPurchase/del/{{id}}"><button>del</button></a></td>
-            <td>{{#conditionOfPurchase}} <a href="/contracts/addContract"><button>create contract</button></a>{{/conditionOfPurchase}}</td>
+            <td>{{#conditionOfPurchase}} <a href="/contracts/addContract/{{id}}"><button>create contract</button></a>{{/conditionOfPurchase}}</td>
         </tr>
     {{/purchases}}
 

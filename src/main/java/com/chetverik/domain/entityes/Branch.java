@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name = "branches")
 public class Branch {
@@ -25,5 +24,13 @@ public class Branch {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

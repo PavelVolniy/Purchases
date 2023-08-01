@@ -19,6 +19,8 @@ input{
 
 
 
+
+
     </style>
 </head>
 <body>
@@ -54,7 +56,8 @@ input{
         </tr>
         <tr>
             <th><input type="text" name="branch" required="true" {{#branch}}disabled value="{{name}}" {{/branch}}></th>
-            <th><input type="text" name="nameOfContract" required="true"></th>
+            <th><input type="text" name="nameOfContract" {{#purchase}}
+                       value="{{namePurchase}}"{{/purchase}} required="true"></th>
             <th><input type="text" name="pp_poz_ep"></th>
             <th>
                 {{#types}}
@@ -62,10 +65,22 @@ input{
                         <input type="radio" name="typeOfPurchase" checked value="{{id}}">{{nameTypeOfPurchase}}
                     </i>
                 {{/types}}
+                {{#purchase}}
+                    <i><input type="radio" name="typeOfPurchase" checked value={{typeOfPurchase.id}}>
+                        {{typeOfPurchase.nameTypeOfPurchase}}</i>
+                {{/purchase}}
             </th>
-            <th><input type="text" name="numberOfContract" required="true"></th>
+            <th><input type="text" name="numberOfContract"
+                {{#purchase}}
+                    value="{{numberOfContract}}"
+                {{/purchase}}
+                       required="true"></th>
             <th><input type="date" name="dateOfContract" required="true"></th>
-            <th><input type="number" name="sum" step="0.01" required="true"></th>
+            <th><input type="number" name="sum" step="0.01"
+                {{#purchase}}
+                       value="{{priceOfContract}}"
+                {{/purchase}}
+                       required="true"></th>
             <th><input type="date" name="dateOfExecutionContract"></th>
         </tr>
         <tr>
@@ -107,7 +122,9 @@ input{
             <th><input type="text" name="okdp2"></th>
             <th><input type="text" name="f_i_o"></th>
             <td><input type="submit" value="Сохранить"></td>
-            <td><a onclick="history.back();"><button>назад</button></a></td>
+            <td><a onclick="history.back();">
+                <button>назад</button>
+            </a></td>
         </tr>
     </table>
 

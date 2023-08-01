@@ -91,7 +91,7 @@ open class PurchaseController(
             purchase.priceApplicationTwo = priceApplicationTwo
             purchase.differenceValues = abs(priceApplicationOne - priceApplicationTwo)
             purchase.priceOfContract = priceOfContract
-            purchase.economy = economy
+            purchase.economy = startPrice-priceOfContract
             purchase.numberOfProcedureOnEIS = numberOfProcedureOnEIS
         }
         purchaseRepo.save(purchase)

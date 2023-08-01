@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name = "TypesOfPurchase")
 public class TypeOfPurchase {
@@ -26,5 +25,13 @@ public class TypeOfPurchase {
                 "id=" + id +
                 ", nameTypeOfPurchase='" + nameTypeOfPurchase + '\'' +
                 '}';
+    }
+
+    public String getNameTypeOfPurchase() {
+        return nameTypeOfPurchase;
+    }
+
+    public void setNameTypeOfPurchase(String nameTypeOfPurchase) {
+        this.nameTypeOfPurchase = nameTypeOfPurchase;
     }
 }

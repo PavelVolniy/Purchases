@@ -6,6 +6,7 @@ import com.chetverik.domain.contract.ContractFieldNames;
 import com.chetverik.domain.entityes.Supplier;
 import com.chetverik.domain.entityes.TypeCompany;
 import com.chetverik.domain.entityes.TypeOfPurchase;
+import com.chetverik.domain.purchase.Purchase;
 import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
 import com.chetverik.repositories.*;
@@ -15,18 +16,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/contracts")
 public class ContractsController {
-    private ContractRepository contractRepo;
-    private BranchRepo branchRepo;
+    private ContractRepo contractRepo;
     private IAuthenticationFacade authenticationFacade;
     private UserRepo userRepo;
     private TypePurchaseRepo typePurchaseRepo;
     private SupplierRepo supplierRepo;
     private TypeCompanyRepo typeCompanyRepo;
+    private PurchaseRepo purchaseRepo;
 
     @GetMapping()
     public String getContractsList(Model model) {
@@ -61,6 +63,16 @@ public class ContractsController {
             contractRepo.deleteById(contractId);
         }
         return "redirect:/contracts";
+    }
+
+    @GetMapping("/addContract/{id}")
+    public String addContractFromPurchase(@PathVariable String id, Model model){
+        Long purchaseId = Long.valueOf(id);
+        Optional<Purchase> purchaseById = purchaseRepo.findById(purchaseId);
+        model.addAttribute("purchase", purchaseById.get());
+        model.addAttribute("branch", getCurrentUser().getBranch());
+        model.addAttribute("typesCompany", typeCompanyRepo.findAll());
+        return "addContract";
     }
 
     @PostMapping()
@@ -114,7 +126,6 @@ public class ContractsController {
         model.addAttribute("contractList", ContractFieldNames.getContractNames());
         model.addAttribute("branch", getCurrentUser().getBranch());
         model.addAttribute("types", typePurchaseRepo.findAll());
-        System.out.println(typeCompanyRepo.findAll());
         model.addAttribute("typesCompany", typeCompanyRepo.findAll());
         return "addContract";
     }

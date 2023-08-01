@@ -3,13 +3,8 @@ package com.chetverik.kotlin.controller
 import com.chetverik.domain.entityes.Branch
 import com.chetverik.domain.entityes.TypeCompany
 import com.chetverik.domain.entityes.TypeOfPurchase
-import com.chetverik.repositories.BranchRepo
-import com.chetverik.repositories.SupplierRepo
-import com.chetverik.repositories.TypeCompanyRepo
-import com.chetverik.repositories.TypePurchaseRepo
-import com.chetverik.repositories.UserRepo
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import org.apache.poi.ss.usermodel.Workbook
+import com.chetverik.excelpoi.ExcelService
+import com.chetverik.repositories.*
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.servlet.http.HttpServletResponse
@@ -30,6 +24,7 @@ open class SettingsController(
     private val typeOfPurchaseRepo: TypePurchaseRepo,
     private val typeCompanyRepo: TypeCompanyRepo,
     private val supplierRepo: SupplierRepo,
+    private val excelService: ExcelService,
 ) {
 
 
@@ -164,13 +159,12 @@ open class SettingsController(
     }
 
     @GetMapping("/exportTables")
-    open fun exportTablesPurchase(response : HttpServletResponse): String {
+    open fun exportTablesPurchase(response: HttpServletResponse) {
         response.contentType = "application/octet-stream"
         val headerKey = "Content-Disposition"
-        val headerValue = "attachment; filename=Contracts_${Date()}.xlsx"
+        val headerValue = "attachment; filename=Contracts_${Date()}.xls"
         response.setHeader(headerKey, headerValue)
-
-        return "redirect:/settings"
+        excelService.exportContractsToExcel(response)
     }
 
 }

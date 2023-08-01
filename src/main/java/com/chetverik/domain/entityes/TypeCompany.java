@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name = "type_of_company")
 public class TypeCompany {
@@ -26,5 +25,13 @@ public class TypeCompany {
                 "id=" + id +
                 ", nameTypeCompany='" + nameTypeCompany + '\'' +
                 '}';
+    }
+
+    public String getNameTypeCompany() {
+        return nameTypeCompany;
+    }
+
+    public void setNameTypeCompany(String nameTypeCompany) {
+        this.nameTypeCompany = nameTypeCompany;
     }
 }

@@ -1,7 +1,7 @@
 package com.chetverik.excelpoi;
 
 import com.chetverik.domain.contract.Contract;
-import com.chetverik.repositories.ContractRepository;
+import com.chetverik.repositories.ContractRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ExcelService {
-    private ContractRepository contractRepo;
+    private ContractRepo contractRepo;
 
     public List<Contract> exportContractsToExcel(HttpServletResponse response) throws IOException {
         List<Contract> contracts = (List<Contract>) contractRepo.findAll();

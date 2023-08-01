@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Filter</title>
+</head>
+<body>
+<div>
+    <form action="/filter" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <table>
+            <tr>
+                <th>Филиал</th>
+                <th>Наименование</th>
+                <th>Вид закупки</th>
+                <th>Номер договора</th>
+                <th>Сумма больше</th>
+                <th>Сумма меньше</th>
+                <th>Наименование поставщика</th>
+                <th>Инн поставщика</th>
+            </tr>
+            <tr>
+                <th>{{#branches}}<input type="radio" name="branchID" value="{{id}}"> {{name}}{{/branches}}
+                </th>
+                <th><input type="text" name="nameOfContract"></th>
+                <th>{{#types}}<input type="radio" name="typeOfPurchaseId" value="{{id}}">{{nameTypeOfPurchase}}{{/types}}
+                </th>
+                <th><input type="text" name="numberOfContract"></th>
+                <th><input type="number" name="sumMore" ></th>
+                <th><input type="number" name="sumLess" ></th>
+                <th><input type="text" name="nameOfSupplier"></th>
+                <th><input type="number" name="innOfSupplier"></th>
+                <td><input type="submit" value="search"></td>
+            </tr>
+        </table>
+    </form>
+
+</div>
+
+</body>
+</html>
