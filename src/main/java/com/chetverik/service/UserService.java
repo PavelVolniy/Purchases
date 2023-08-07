@@ -1,5 +1,6 @@
 package com.chetverik.service;
 
+import com.chetverik.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,5 +16,9 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
+    }
+
+    public Iterable<User> getUserList(){
+        return userRepo.findAll();
     }
 }

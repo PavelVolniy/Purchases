@@ -38,6 +38,12 @@
         <input type="hidden" name="userId" value="{{id}}">
         <button type="submit">del</button>
     </form>
+
+    {{#contracts}}
+        <div>{{.}}</div>
+    {{/contracts}}
+
 {{/user}}
+
 </body>
 </html>

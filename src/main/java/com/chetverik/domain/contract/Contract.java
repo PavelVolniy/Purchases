@@ -21,22 +21,26 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ElementCollection(targetClass = Branches.class, fetch = FetchType.EAGER)
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
     private Branch branch;
     private String nameOfContract;
     private String pp_poz_ep;
     @ElementCollection(targetClass = TypeOfPurchase.class, fetch = FetchType.EAGER)
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "type_of_purchase_id")
     private TypeOfPurchase typeOfPurchase;
     private String numberOfContract;
     private String dateOfContract;
     private Double sum;
     private String dateOfExecutionContract;
     @ElementCollection(targetClass = Supplier.class, fetch = FetchType.EAGER)
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "supplier_inn")
     private Supplier supplier;
     @ElementCollection(targetClass = TypeCompany.class, fetch = FetchType.EAGER)
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "type_of_company_id")
     private TypeCompany typeOfCompany;
     private String numberOfRegistryEntry;
     private String additionalAgreement;
@@ -44,7 +48,8 @@ public class Contract {
     private String f_i_o;
 
     @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
 

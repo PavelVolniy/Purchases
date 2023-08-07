@@ -2,6 +2,7 @@ package com.chetverik.domain.user;
 
 
 import com.chetverik.domain.Branches;
+import com.chetverik.domain.contract.Contract;
 import com.chetverik.domain.entityes.Branch;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,10 +29,16 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @ElementCollection(targetClass = Branches.class, fetch = FetchType.EAGER)
-    @OneToOne()
+    @ManyToOne()
+    @JoinColumn(name = "branch_id")
     private Branch branch;
 
     private boolean active = false;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Contract> contracts;
+
+
 
     public Branch getBranch() {
         return branch;
@@ -77,6 +84,14 @@ public class User implements UserDetails {
         this.roles = roles;
         this.branch = branch;
         this.active = active;
+    }
+
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     @Override

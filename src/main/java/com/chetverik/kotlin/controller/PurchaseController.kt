@@ -9,6 +9,7 @@ import com.chetverik.domain.user.User
 import com.chetverik.repositories.PurchaseRepo
 import com.chetverik.repositories.TypePurchaseRepo
 import com.chetverik.repositories.UserRepo
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
@@ -32,10 +33,10 @@ open class PurchaseController(
     }
 
     @GetMapping("/editPurchase/{id}")
-    open fun editPurchaseForm(@PathVariable id: String, model: Model): String {
+    open fun editPurchaseForm(@PathVariable id: String, model: Model, @AuthenticationPrincipal currentUser: User): String {
         val purchaseId: Long = id.toLong()
         val findById = purchaseRepo.findAllById(Collections.singleton(purchaseId))
-        if (findById.first().branch == getCurrentUser().branch || getCurrentUser().roles.contains(Role.ADMIN)) {
+        if (findById.first().branch == currentUser.branch || currentUser.roles.contains(Role.ADMIN)) {
             model.addAttribute("purchase", findById)
             model.addAttribute("types", typeOfPurchaseRepo.findAll())
             return "editPurchase"
@@ -99,8 +100,8 @@ open class PurchaseController(
     }
 
     @GetMapping("/addPurchase")
-    open fun addPurchaseForm(model: Model): String {
-        model.addAttribute("branch", getCurrentUser().branch)
+    open fun addPurchaseForm(model: Model, @AuthenticationPrincipal currentUser: User): String {
+        model.addAttribute("branch", currentUser.branch)
         model.addAttribute("types", typeOfPurchaseRepo.findAll())
         return "addPurchase"
     }
@@ -124,16 +125,11 @@ open class PurchaseController(
         @RequestParam(defaultValue = "0.0") priceOfContract: Double,
         @RequestParam(defaultValue = "0.0") economy: Double,
         @RequestParam(defaultValue = "0") numberOfProcedureOnEIS: Int,
+        @AuthenticationPrincipal currentUser: User,
         model: Model,
     ): String {
-        var difference: Double
-        if (priceApplicationOne > priceApplicationTwo) {
-            difference = priceApplicationOne - priceApplicationTwo
-        } else {
-            difference = differenceValues
-        }
         val newPurchase = Purchase(
-            getCurrentUser().branch,
+            currentUser.branch,
             namePurchase,
             typeOfPurchase,
             conditionOfPurchase,
@@ -146,13 +142,12 @@ open class PurchaseController(
             applicationAdmitted,
             priceApplicationOne,
             priceApplicationTwo,
-            difference,
+            abs(priceApplicationOne-priceApplicationTwo),
             priceOfContract,
             economy,
             numberOfProcedureOnEIS,
-            userRepo.findByUsername(getCurrentUser().username)
+            userRepo.findByUsername(currentUser.username)
         )
-//        val byName = purchaseRepo.findByNamePurchase(newPurchase.namePurchase)
         purchaseRepo.save(newPurchase)
         return "redirect:/purchase"
     }

@@ -24,12 +24,12 @@
             border: 1px solid black;
             border-radius: 5px;
         }
-
-
     </style>
 </head>
 <body>
-<div><a href="/filter"><button>Filter</button></a></div>
+<div><a href="/filter">
+    <button>Filter</button>
+</a></div>
     <table title="Contracts list" id="contractsForm">
         <tr>
             {{#names}}
@@ -55,14 +55,19 @@
                 {{#supplier}}
                     <th>{{nameSupplier}}</th>
                     <th>{{inn}}</th>{{/supplier}}
-                {{#typeOfCompany}}<th>{{nameTypeCompany}}</th>{{/typeOfCompany}}
+                {{#typeOfCompany}}
+                    <th>{{nameTypeCompany}}</th>{{/typeOfCompany}}
                 <th>{{numberOfRegistryEntry}}</th>
                 <th>{{additionalAgreement}}</th>
                 <th>{{okdp2}}</th>
                 <th>{{f_i_o}}</th>
                 <th>{{user.username}}</th>
-                <td><a href="/contracts/editContract/{{id}}"><button>edit</button></a></td>
-                <td><a href="/contracts/editContract/del/{{id}}"><button>del</button></a></td>
+                <td><a href="/contracts/editContract/{{id}}">
+                    <button>edit</button>
+                </a></td>
+                <td><a href="/contracts/editContract/del/{{id}}">
+                    <button>del</button>
+                </a></td>
             </tr>
         {{/contracts}}
 
@@ -76,7 +81,9 @@
             </form>
         </th>
         <th>
-            <a href="/main"><button>назад</button></a>
+            <a href="/main">
+                <button>назад</button>
+            </a>
         </th>
     </tr>
 </table>
