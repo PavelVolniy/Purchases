@@ -1,6 +1,5 @@
 package com.chetverik.controllers;
 
-import com.chetverik.components.IAuthenticationFacade;
 import com.chetverik.domain.contract.Contract;
 import com.chetverik.domain.contract.ContractFieldNames;
 import com.chetverik.domain.entityes.Supplier;
@@ -9,31 +8,30 @@ import com.chetverik.domain.entityes.TypeOfPurchase;
 import com.chetverik.domain.purchase.Purchase;
 import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
-import com.chetverik.repositories.*;
+import com.chetverik.repositories.SupplierRepo;
+import com.chetverik.repositories.TypeCompanyRepo;
+import com.chetverik.repositories.TypePurchaseRepo;
+import com.chetverik.service.ContractService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/contracts")
 public class ContractsController {
-    private ContractRepo contractRepo;
-    private IAuthenticationFacade authenticationFacade;
-    private UserRepo userRepo;
+    private ContractService contractService;
     private TypePurchaseRepo typePurchaseRepo;
     private SupplierRepo supplierRepo;
     private TypeCompanyRepo typeCompanyRepo;
-    private PurchaseRepo purchaseRepo;
 
     @GetMapping()
     public String getContractsList(Model model) {
-        Iterable<Contract> contracts = contractRepo.findAll();
+        List<Contract> contracts = contractService.getAllContracts();
         model.addAttribute("names", ContractFieldNames.getContractNames());
         model.addAttribute("contracts", contracts);
 
@@ -43,11 +41,11 @@ public class ContractsController {
     @GetMapping("/editContract/{id}")
     public String editContractForm(@PathVariable String id, Model model, @AuthenticationPrincipal User currentUser) {
         Long contractId = Long.valueOf(id);
-        Iterable<Contract> contract = contractRepo.findAllById(Collections.singleton(contractId));
-        if (contract.iterator().next().getBranch() == currentUser.getBranch() || currentUser.getRoles().contains(Role.ADMIN)) {
+        Contract contract = contractService.findContractById(contractId);
+        if (contract.getUser().equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)) {
             model.addAttribute("contract", contract);
-            model.addAttribute("types", typePurchaseRepo.findAll());
-            model.addAttribute("typesCompany", typeCompanyRepo.findAll());
+            model.addAttribute("types", contractService.getTypeOfPurchaseList());
+            model.addAttribute("typesCompany", contractService.getTypesCompanyList());
             return "editContract";
         } else {
             return "redirect:/contracts";
@@ -55,10 +53,14 @@ public class ContractsController {
     }
 
     @GetMapping("/editContract/del/{id}")
-    public String delContract(@PathVariable String id) {
-        if (id != null && !id.isEmpty()) {
-            Long contractId = Long.valueOf(id);
-            contractRepo.deleteById(contractId);
+    public String delContract(@PathVariable String id,
+                              @AuthenticationPrincipal User currentUser) {
+        User user = contractService.findContractById(Long.valueOf(id)).getUser();
+        if (user.equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)){
+            if (id != null && !id.isEmpty()) {
+                Long contractId = Long.valueOf(id);
+                contractService.deleteContractById(contractId);
+            }
         }
         return "redirect:/contracts";
     }
@@ -68,10 +70,10 @@ public class ContractsController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable String id, Model model) {
         Long purchaseId = Long.valueOf(id);
-        Optional<Purchase> purchaseById = purchaseRepo.findById(purchaseId);
-        model.addAttribute("purchase", purchaseById.get());
+        Purchase purchaseById = contractService.findPurchaseById(purchaseId);
+        model.addAttribute("purchase", purchaseById);
         model.addAttribute("branch", currentUser.getBranch());
-        model.addAttribute("typesCompany", typeCompanyRepo.findAll());
+        model.addAttribute("typesCompany", contractService.getTypesCompanyList());
         return "addContract";
     }
 
@@ -86,12 +88,13 @@ public class ContractsController {
             @RequestParam Double sum,
             @RequestParam String dateOfExecutionContract,
             @RequestParam String nameOfSupplier,
-            @RequestParam(defaultValue = "000") int innOfSupplier,
+            @RequestParam(defaultValue = "000") String innOfSupplier,
             @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
             @RequestParam String additionalAgreement,
             @RequestParam String okdp2,
-            @RequestParam String f_i_o
+            @RequestParam String f_i_o,
+            @AuthenticationPrincipal User currentUser
     ) {
         if (nameOfSupplier != null) {
             Supplier bynameSupplier = supplierRepo.findBynameSupplier(nameOfSupplier);
@@ -115,7 +118,9 @@ public class ContractsController {
         contract.setAdditionalAgreement(additionalAgreement);
         contract.setOkdp2(okdp2);
         contract.setF_i_o(f_i_o);
-        contractRepo.save(contract);
+        if (contract.getUser().equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)){
+            contractService.saveContract(contract);
+        }
         return "redirect:/contracts";
     }
 
@@ -142,7 +147,7 @@ public class ContractsController {
             @RequestParam Double sum,
             @RequestParam String dateOfExecutionContract,
             @RequestParam String nameOfSupplier,
-            @RequestParam(defaultValue = "0") int innOfSupplier,
+            @RequestParam(defaultValue = "0") String innOfSupplier,
             @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
             @RequestParam String additionalAgreement,
@@ -152,8 +157,7 @@ public class ContractsController {
     ) {
         Contract newContract;
         Supplier supplier;
-        TypeCompany typeCompany;
-        if (typeOfPurchase != null && innOfSupplier > -1 && !nameOfSupplier.isEmpty() && typeOfCompany != null) {
+        if (typeOfPurchase != null && !innOfSupplier.isEmpty() && !nameOfSupplier.isEmpty() && typeOfCompany != null) {
             supplier = new Supplier(innOfSupplier, nameOfSupplier);
             supplierRepo.save(supplier);
             newContract = new Contract(
@@ -172,14 +176,14 @@ public class ContractsController {
                     okdp2,
                     f_i_o,
                     currentUser);
-            contractRepo.save(newContract);
+            contractService.saveContract(newContract);
         }
         return "redirect:/contracts";
     }
 
     @GetMapping("/clearContractList")
     public String clearContractList() {
-        contractRepo.deleteAll();
+        contractService.clearContractList();
         return "redirect:/contracts";
     }
 }

@@ -42,7 +42,7 @@ public class FilterController {
     public String getFilters(
             @RequestParam(required = false) Branch branchID,
             @RequestParam(required = false) String nameOfContract,
-            @RequestParam(required = false) TypeOfPurchase typeOfPurchase,
+            @RequestParam(required = false) String typeOfPurchaseId,
             @RequestParam(required = false) String numberOfContract,
             @RequestParam(required = false) String sumMore,
             @RequestParam(required = false) String sumLess,
@@ -53,7 +53,7 @@ public class FilterController {
         Map<String, Object> map = new HashMap<>();
         map.put("branch", branchID);
         map.put("nameOfContract", nameOfContract);
-        map.put("typeOfPurchase", typeOfPurchase);
+        map.put("typeOfPurchase", typeOfPurchaseId);
         map.put("numberOfContract", numberOfContract);
         map.put("sumMore", sumMore);
         map.put("sumLess", sumLess);

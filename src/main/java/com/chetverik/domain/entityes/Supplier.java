@@ -3,9 +3,7 @@ package com.chetverik.domain.entityes;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -13,10 +11,12 @@ import javax.persistence.Table;
 @Table(name = "suppliers")
 public class Supplier {
     @Id
-    private long inn;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private String inn;
     private String nameSupplier;
 
-    public Supplier(int inn, String nameSupplier) {
+    public Supplier(String inn, String nameSupplier) {
         this.inn = inn;
         this.nameSupplier = nameSupplier;
     }

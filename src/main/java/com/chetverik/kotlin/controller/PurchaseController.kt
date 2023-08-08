@@ -1,14 +1,13 @@
 package com.chetverik.kotlin.controller
 
-import com.chetverik.components.IAuthenticationFacade
 import com.chetverik.domain.entityes.TypeOfPurchase
 import com.chetverik.domain.purchase.Purchase
 import com.chetverik.domain.purchase.PurchaseFieldNames
 import com.chetverik.domain.user.Role
 import com.chetverik.domain.user.User
-import com.chetverik.repositories.PurchaseRepo
 import com.chetverik.repositories.TypePurchaseRepo
 import com.chetverik.repositories.UserRepo
+import com.chetverik.service.PurchaseService
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -19,24 +18,27 @@ import kotlin.math.abs
 @Controller
 @RequestMapping("/purchase")
 open class PurchaseController(
-    private val purchaseRepo: PurchaseRepo,
+    private val purchaseService: PurchaseService,
     private val userRepo: UserRepo,
-    private val authenticationFacade: IAuthenticationFacade,
     private val typeOfPurchaseRepo: TypePurchaseRepo,
 ) {
 
     @GetMapping()
     open fun getPurchaseList(model: Model): String {
         model.addAttribute("names", PurchaseFieldNames.getContractNames())
-        model.addAttribute("purchases", purchaseRepo.findAll())
+        model.addAttribute("purchases", purchaseService.purchaseList)
         return "purchase"
     }
 
     @GetMapping("/editPurchase/{id}")
-    open fun editPurchaseForm(@PathVariable id: String, model: Model, @AuthenticationPrincipal currentUser: User): String {
+    open fun editPurchaseForm(
+        @PathVariable id: String,
+        model: Model,
+        @AuthenticationPrincipal currentUser: User,
+    ): String {
         val purchaseId: Long = id.toLong()
-        val findById = purchaseRepo.findAllById(Collections.singleton(purchaseId))
-        if (findById.first().branch == currentUser.branch || currentUser.roles.contains(Role.ADMIN)) {
+        val findById = purchaseService.findById(purchaseId)
+        if (findById.user.equals(currentUser) || currentUser.roles.contains(Role.ADMIN)) {
             model.addAttribute("purchase", findById)
             model.addAttribute("types", typeOfPurchaseRepo.findAll())
             return "editPurchase"
@@ -46,9 +48,17 @@ open class PurchaseController(
     }
 
     @GetMapping("/editPurchase/del/{id}")
-    open fun delPurchase(@PathVariable id: String): String {
+    open fun delPurchase(
+        @PathVariable id: String,
+        @AuthenticationPrincipal currentUser: User,
+    ): String {
+        val purchaseId = id.toLong()
         if (id.isNotEmpty()) {
-            purchaseRepo.deleteById(id.toLong())
+            if (purchaseService.findById(purchaseId).user.equals(currentUser)
+                || currentUser.roles.contains(Role.ADMIN)
+            ) {
+                purchaseService.deletePurchaseById(purchaseId)
+            }
         }
         return "redirect:/purchase"
     }
@@ -92,10 +102,10 @@ open class PurchaseController(
             purchase.priceApplicationTwo = priceApplicationTwo
             purchase.differenceValues = abs(priceApplicationOne - priceApplicationTwo)
             purchase.priceOfContract = priceOfContract
-            purchase.economy = startPrice-priceOfContract
+            purchase.economy = startPrice - priceOfContract
             purchase.numberOfProcedureOnEIS = numberOfProcedureOnEIS
         }
-        purchaseRepo.save(purchase)
+        purchaseService.savePurchase(purchase)
         return "redirect:/purchase"
     }
 
@@ -142,18 +152,13 @@ open class PurchaseController(
             applicationAdmitted,
             priceApplicationOne,
             priceApplicationTwo,
-            abs(priceApplicationOne-priceApplicationTwo),
+            abs(priceApplicationOne - priceApplicationTwo),
             priceOfContract,
             economy,
             numberOfProcedureOnEIS,
             userRepo.findByUsername(currentUser.username)
         )
-        purchaseRepo.save(newPurchase)
+        purchaseService.savePurchase(newPurchase)
         return "redirect:/purchase"
-    }
-
-    private fun getCurrentUser(): User {
-        val userName = authenticationFacade.authentication.name
-        return userRepo.findByUsername(userName)
     }
 }

@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface ContractRepo extends CrudRepository<Contract, Long> {
 
+    Contract findFirstById(Long aLong);
+
     Contract findByNameOfContract(String findByNameOfContract);
 
     @Query("from Contract c where c.branch in (:branch) " +

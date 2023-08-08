@@ -1,6 +1,7 @@
 package com.chetverik.excelpoi;
 
 import com.chetverik.domain.contract.Contract;
+import com.chetverik.domain.contract.ContractFieldNames;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -26,7 +27,6 @@ public class ExcelExportUtil {
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
-        sheet.autoSizeColumn(columnCount);
         Cell cell = row.createCell(columnCount);
         if (value instanceof Integer) {
             cell.setCellValue((Integer) value);
@@ -38,6 +38,7 @@ public class ExcelExportUtil {
             cell.setCellValue((Boolean) value);
         }
         cell.setCellStyle(style);
+        sheet.autoSizeColumn(columnCount);
     }
 
     private void createHeaderRow(String nameSheet, Short heightFont, int countColumns) {
@@ -57,13 +58,10 @@ public class ExcelExportUtil {
         font.setBold(true);
         font.setFontHeight((short) 16);
         style.setFont(font);
-        createCell(row,0,"ID", style);
-        createCell(row,1,"ID", style);
-        createCell(row,2,"ID", style);
-        createCell(row,3,"ID", style);
-        createCell(row,4,"ID", style);
-        createCell(row,5,"ID", style);
-
+        String[] names = ContractFieldNames.getContractNames();
+        for (int i = 0; i < names.length; i++) {
+            createCell(row, i, names[i], style);
+        }
     }
 
     private void writeContractData(short heightFont){
@@ -73,21 +71,30 @@ public class ExcelExportUtil {
         font.setFontHeight(heightFont);
         style.setFont(font);
 
-        for (Contract contract :
-                contractList) {
+        for (Contract contract :contractList) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
-            createCell(row, columnCount++, contract.getBranch(), style);
+            createCell(row, columnCount++, contract.getBranch().getName(), style);
             createCell(row, columnCount++, contract.getNameOfContract(), style);
+            createCell(row, columnCount++, contract.getPp_poz_ep(), style);
+            createCell(row, columnCount++, contract.getTypeOfPurchase().getNameTypeOfPurchase(), style);
             createCell(row, columnCount++, contract.getNumberOfContract(), style);
+            createCell(row, columnCount++, contract.getDateOfContract(), style);
+            createCell(row, columnCount++, contract.getSum(), style);
+            createCell(row, columnCount++, contract.getDateOfExecutionContract(), style);
+            createCell(row, columnCount++, contract.getSupplier().getNameSupplier(), style);
+            createCell(row, columnCount++, contract.getSupplier().getInn(), style);
+            createCell(row, columnCount++, contract.getTypeOfCompany().getNameTypeCompany(), style);
             createCell(row, columnCount++, contract.getNumberOfRegistryEntry(), style);
-            createCell(row, columnCount++, contract.getUser().getUsername(), style);
+            createCell(row, columnCount++, contract.getAdditionalAgreement(), style);
+            createCell(row, columnCount++, contract.getOkdp2(), style);
+            createCell(row, columnCount++, contract.getF_i_o(), style);
         }
 
     }
 
     public void exportDataToExcel(HttpServletResponse response, String nameSheet) throws IOException {
-        createHeaderRow(nameSheet, (short) 20, 10);
+        createHeaderRow(nameSheet, (short) 30, 10);
         writeContractData((short) 20);
         ServletOutputStream outputStream = response.getOutputStream();
         wb.write(outputStream);
