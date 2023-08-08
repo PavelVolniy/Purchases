@@ -47,9 +47,14 @@
             <th>
                 {{#types}}
                     <i>
-                        <input type="radio" name="typeOfPurchase" checked value="{{id}}">{{nameTypeOfPurchase}}
+                        <input type="radio" name="typeOfPurchase" value="{{id}}">{{nameTypeOfPurchase}}
                     </i>
                 {{/types}}
+                {{#type}}
+                    <i>
+                        <input type="radio" name="typeOfPurchase" checked value="{{id}}">{{nameTypeOfPurchase}}
+                    </i>
+                {{/type}}
             </th>
             <th><input type="text" name="numberOfContract" required="true"value="{{numberOfContract}}"></th>
             <th><input type="date" name="dateOfContract" required="true" value="{{dateOfContract}}"></th>
@@ -87,9 +92,14 @@
             <th>
                 {{#typesCompany}}
                     <i>
-                        <input type="radio" name="typeOfCompany" checked required="true" value="{{id}}">{{nameTypeCompany}}
+                        <input type="radio" name="typeOfCompany" required="true" value="{{id}}">{{nameTypeCompany}}
                     </i>
                 {{/typesCompany}}
+                {{#typeCompany}}
+                    <i>
+                        <input type="radio" name="typeOfCompany" checked required="true" value="{{id}}">{{nameTypeCompany}}
+                    </i>
+                {{/typeCompany}}
             </th>
             <th><input type="number" name="numberOfRegistryEntry" value="{{numberOfRegistryEntry}}"></th>
             <th><input type="text" name="additionalAgreement" value="{{additionalAgreement}}"></th>

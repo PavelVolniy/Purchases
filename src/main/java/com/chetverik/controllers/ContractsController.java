@@ -42,10 +42,16 @@ public class ContractsController {
     public String editContractForm(@PathVariable String id, Model model, @AuthenticationPrincipal User currentUser) {
         Long contractId = Long.valueOf(id);
         Contract contract = contractService.findContractById(contractId);
+        List<TypeCompany> typesCompanyList = contractService.getTypesCompanyList();
+        typesCompanyList.remove(contract.getTypeOfCompany());
+        List<TypeOfPurchase> typeOfPurchaseList = contractService.getTypeOfPurchaseList();
+        typeOfPurchaseList.remove(contract.getTypeOfPurchase());
         if (contract.getUser().equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)) {
             model.addAttribute("contract", contract);
-            model.addAttribute("types", contractService.getTypeOfPurchaseList());
-            model.addAttribute("typesCompany", contractService.getTypesCompanyList());
+            model.addAttribute("types", typeOfPurchaseList);
+            model.addAttribute("type", contract.getTypeOfPurchase());
+            model.addAttribute("typesCompany", typesCompanyList);
+            model.addAttribute("typeCompany", contract.getTypeOfCompany());
             return "editContract";
         } else {
             return "redirect:/contracts";

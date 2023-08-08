@@ -23,7 +23,7 @@ public class MainController {
     @GetMapping("/main")
     public String greeting(@AuthenticationPrincipal User currentUser, Model model) {
         for (Role role : currentUser.getRoles()) {
-            if (role == Role.ADMIN) {
+            if (role == Role.SUPERUSER) {
                 model.addAttribute("admin", true);
             }
         }
