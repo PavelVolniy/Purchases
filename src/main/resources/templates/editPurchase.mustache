@@ -30,11 +30,16 @@
                 <th>
                     {{#types}}
                         <i>
-                            <input type="radio" name="typeOfPurchase" checked value="{{id}}">{{nameTypeOfPurchase}}
+                            <input type="radio" name="typeOfPurchase" value="{{id}}">{{nameTypeOfPurchase}}
                         </i>
                     {{/types}}
+                    {{#type}}
+                        <i>
+                            <input type="radio" name="typeOfPurchase" checked value="{{id}}">{{nameTypeOfPurchase}}
+                        </i>
+                    {{/type}}
                 </th>
-                <th><input type="checkbox" name="conditionOfPurchase" ></th>
+                <th><input type="checkbox" name="conditionOfPurchase" {{#checked}}checked{{/checked}} ></th>
                 <th><input type="date" name="dateOfPlacement" value="{{dateOfPlacement}}" required="true"></th>
                 <th><input type="date" name="dateOfEnd" value="{{dateOfEnd}}" required="true"></th>
                 <th><input type="date" name="dateOfReview" value="{{dateOfReview}}" required="true"></th>

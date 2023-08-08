@@ -37,10 +37,14 @@ open class PurchaseController(
         @AuthenticationPrincipal currentUser: User,
     ): String {
         val purchaseId: Long = id.toLong()
-        val findById = purchaseService.findById(purchaseId)
-        if (findById.user.equals(currentUser) || currentUser.roles.contains(Role.ADMIN)) {
-            model.addAttribute("purchase", findById)
-            model.addAttribute("types", typeOfPurchaseRepo.findAll())
+        val purchaseById = purchaseService.findById(purchaseId)
+        val purchaseTypeList = purchaseService.typesOfPurchase
+        purchaseTypeList.remove(purchaseById.typeOfPurchase)
+        if (purchaseById.user.equals(currentUser) || currentUser.roles.contains(Role.ADMIN)) {
+            model.addAttribute("purchase", purchaseById)
+            model.addAttribute("types", purchaseTypeList)
+            model.addAttribute("type", purchaseById.typeOfPurchase)
+            model.addAttribute("checked", purchaseById.isConditionOfPurchase)
             return "editPurchase"
         } else {
             return "redirect:/purchase"
