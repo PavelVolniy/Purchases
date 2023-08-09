@@ -31,6 +31,10 @@ public class ContractService {
         return contractRepo.findFirstById(id);
     }
 
+    public List<Branch> getBranchList(){
+        return (List<Branch>) branchRepo.findAll();
+    }
+
     public List<TypeOfPurchase> getTypeOfPurchaseList() {
         return (List<TypeOfPurchase>) typePurchaseRepo.findAll();
     }

@@ -2,10 +2,7 @@ package com.chetverik.controllers;
 
 import com.chetverik.domain.contract.ContractFieldNames;
 import com.chetverik.domain.entityes.Branch;
-import com.chetverik.domain.entityes.TypeOfPurchase;
 import com.chetverik.domain.user.User;
-import com.chetverik.repositories.BranchRepo;
-import com.chetverik.repositories.TypePurchaseRepo;
 import com.chetverik.service.ContractService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,25 +12,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/filter")
 public class FilterController {
-    private BranchRepo branchRepo;
-    private TypePurchaseRepo typePurchaseRepo;
     private ContractService contractService;
 
     @GetMapping()
     public String filterFormTest(
             @AuthenticationPrincipal User user,
             Model model) {
-        model.addAttribute("branches", branchRepo.findAll());
-        model.addAttribute("types", typePurchaseRepo.findAll());
+        model.addAttribute("branches", contractService.getBranchList());
+        model.addAttribute("types", contractService.getTypeOfPurchaseList());
         model.addAttribute("userName", user.getUsername());
         return "filter";
     }

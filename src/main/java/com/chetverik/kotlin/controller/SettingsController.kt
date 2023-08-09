@@ -3,8 +3,9 @@ package com.chetverik.kotlin.controller
 import com.chetverik.domain.entityes.Branch
 import com.chetverik.domain.entityes.TypeCompany
 import com.chetverik.domain.entityes.TypeOfPurchase
-import com.chetverik.service.ExcelService
 import com.chetverik.repositories.*
+import com.chetverik.service.ExcelService
+import com.chetverik.service.SettingsService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -19,23 +20,18 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 @PreAuthorize("hasAuthority('SUPERUSER')")
 open class SettingsController(
-    private val userRepo: UserRepo,
-    private val branchRepo: BranchRepo,
-    private val typeOfPurchaseRepo: TypePurchaseRepo,
-    private val typeCompanyRepo: TypeCompanyRepo,
-    private val supplierRepo: SupplierRepo,
     private val excelService: ExcelService,
+    private val settingsService: SettingsService,
 ) {
 
 
     @GetMapping("/settings")
     open fun getSettings(model: Model): String {
-        println(userRepo.findAll())
-        model.addAttribute("userList", userRepo.findAll())
-        model.addAttribute("branches", branchRepo.findAll())
-        model.addAttribute("typesPurchase", typeOfPurchaseRepo.findAll())
-        model.addAttribute("typesCompany", typeCompanyRepo.findAll())
-        model.addAttribute("suppliers", supplierRepo.findAll())
+        model.addAttribute("userList", settingsService.userList)
+        model.addAttribute("branches", settingsService.branchList)
+        model.addAttribute("typesPurchase", settingsService.typePurchaseList)
+        model.addAttribute("typesCompany", settingsService.typeCompanyList)
+        model.addAttribute("suppliers", settingsService.supplierList)
         model.addAttribute("currentDate", SimpleDateFormat("dd.MM.yyyy").format(Date()))
         return "settings"
     }
@@ -43,11 +39,11 @@ open class SettingsController(
     @PostMapping("/settings")
     open fun addNewBranch(@RequestParam newBranch: String, model: Model): String {
         if (newBranch.isNotEmpty()) {
-            val findByNameBranch = branchRepo.findByName(newBranch)
+            val findByNameBranch = settingsService.findBranchByName(newBranch)
             if (findByNameBranch != null) {
                 model.addAttribute("errorMessage", "branch is exist")
             } else {
-                branchRepo.save(Branch(newBranch))
+                settingsService.saveBranch(Branch(newBranch))
             }
         }
         return "redirect:/settings"
@@ -56,7 +52,7 @@ open class SettingsController(
     @GetMapping("/branch/{id}")
     open fun editBranch(@PathVariable id: String, model: Model): String {
         val branchId = id.toLong()
-        val branchById = branchRepo.findAllById(Collections.singleton(branchId))
+        val branchById = settingsService.findAllBranchById(branchId)
         model.addAttribute("branchById", branchById)
         return "branchEdit"
     }
@@ -65,7 +61,7 @@ open class SettingsController(
     open fun delBranch(@PathVariable id: String): String {
         if (id.isNotEmpty()) {
             val branchId = id.toLong()
-            branchRepo.deleteById(branchId)
+            settingsService.deleteBranchByID(branchId)
         }
         return "redirect:/settings"
     }
@@ -77,17 +73,15 @@ open class SettingsController(
     ): String {
         if (branchName != null && branchName.isNotEmpty()) {
             branch.name = branchName
-            branchRepo.save(branch)
+            settingsService.saveBranch(branch)
         }
         return "redirect:/settings"
     }
 
     @PostMapping("/settings/typesPurchase")
     open fun addNewTypeOfPurchase(@RequestParam newTypeOfPurchase: String): String {
-        typeOfPurchaseRepo.save(
-            TypeOfPurchase(
-                newTypeOfPurchase
-            )
+        settingsService.saveTypeOfPurchase(
+            TypeOfPurchase(newTypeOfPurchase)
         )
 
         return "redirect:/settings"
@@ -96,21 +90,21 @@ open class SettingsController(
     @PostMapping("settings/typeCompany")
     open fun addNewTypOfCompany(@RequestParam newTypeCompany: String): String {
         if (newTypeCompany.isNotEmpty()) {
-            typeCompanyRepo.save(TypeCompany(newTypeCompany))
+            settingsService.saveTypeCompany(TypeCompany(newTypeCompany))
         }
         return "redirect:/settings"
     }
 
     @GetMapping("/typeCompany/{id}")
     open fun editTypeCompanyForm(@PathVariable id: String, model: Model): String {
-        model.addAttribute("typeOfCompany", typeCompanyRepo.findAllById(Collections.singleton(id.toLong())))
+        model.addAttribute("typeOfCompany", settingsService.findAllTypeCompanyById(id.toLong()))
         return "/editTypeCompany"
     }
 
     @GetMapping("/typeCompany/del/{id}")
     open fun delTypeCompany(@PathVariable id: String): String {
         if (id.isNotEmpty()) {
-            typeCompanyRepo.deleteById(id.toLong())
+            settingsService.deleteTypCompanyById(id.toLong())
         }
         return "redirect:/settings"
     }
@@ -122,7 +116,7 @@ open class SettingsController(
     ): String {
         if (newNameTypeCompany.isNotEmpty()) {
             typeCompany.nameTypeCompany = newNameTypeCompany
-            typeCompanyRepo.save(typeCompany)
+            settingsService.saveTypeCompany(typeCompany)
         }
         return "redirect:/settings"
     }
@@ -131,7 +125,7 @@ open class SettingsController(
     open fun editTypePurchase(@PathVariable id: String, model: Model): String {
         if (id.isNotEmpty()) {
             val typePurchaseId = id.toLong()
-            val typeOfPurchase = typeOfPurchaseRepo.findAllById(Collections.singleton(typePurchaseId))
+            val typeOfPurchase = settingsService.findAllTypePurchaseBiId(typePurchaseId)
             model.addAttribute("typePurchase", typeOfPurchase)
         }
         return "/editType"
@@ -141,7 +135,7 @@ open class SettingsController(
     open fun delTypePurchase(@PathVariable id: String): String {
         if (id.isNotEmpty()) {
             val purchaseId = id.toLong()
-            typeOfPurchaseRepo.deleteById(purchaseId)
+            settingsService.deleteTypePurchaseById(purchaseId)
         }
         return "redirect:/settings"
     }
@@ -154,7 +148,7 @@ open class SettingsController(
         if (namePurchase != null && namePurchase.isNotEmpty()) {
             type.nameTypeOfPurchase = namePurchase
         }
-        typeOfPurchaseRepo.save(type)
+        settingsService.saveTypeOfPurchase(type)
         return "redirect:/settings"
     }
 
