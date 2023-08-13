@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>editSupplier</title>
+</head>
+<body>
+<form action="/supplier" method="post" style="margin-top: 15%; margin-right: 45%; text-align: right;">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    {{#supplier}}
+        <div><label>name supplier: <input type="text" name="nameSupplier" required value="{{nameSupplier}}"></label>
+            <label>inn supplier: <input type="text" name="inn" required value="{{inn}}"></label>
+            <input type="submit" value="save">
+        </div>
+    {{/supplier}}
+
+</form>
+
+</body>
+</html>

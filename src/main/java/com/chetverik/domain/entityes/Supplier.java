@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name = "suppliers")
 public class Supplier {
@@ -18,6 +17,22 @@ public class Supplier {
 
     public Supplier(String inn, String nameSupplier) {
         this.inn = inn;
+        this.nameSupplier = nameSupplier;
+    }
+
+    public String getInn() {
+        return inn;
+    }
+
+    public void setInn(String inn) {
+        this.inn = inn;
+    }
+
+    public String getNameSupplier() {
+        return nameSupplier;
+    }
+
+    public void setNameSupplier(String nameSupplier) {
         this.nameSupplier = nameSupplier;
     }
 }

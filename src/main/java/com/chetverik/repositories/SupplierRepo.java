@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface SupplierRepo extends CrudRepository<Supplier, Long> {
     Supplier findBynameSupplier(String nameSupplier);
-    Supplier findByinn(Long inn);
+    Supplier findByinn(String inn);
 
     @Query("from Supplier s where s.nameSupplier like %:nameSupplier%")
     List<Supplier> getListSuppliersConsistValue(@Param("nameSupplier") String nameSupplier);

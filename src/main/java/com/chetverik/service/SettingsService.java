@@ -40,6 +40,26 @@ public class SettingsService {
         return supplierRepo.findAll();
     }
 
+    public Supplier getSupplierByName(String nameSupplier){
+        return supplierRepo.findBynameSupplier(nameSupplier);
+    }
+
+    public Supplier getSupplierByInn(String inn){
+        return supplierRepo.findByinn(inn);
+    }
+
+    public Supplier getSupplierById(String id){
+        return supplierRepo.findById(Long.valueOf(id)).get();
+    }
+
+    public void saveSupplier(Supplier supplier){
+        supplierRepo.save(supplier);
+    }
+
+    public void dellSupplier(String id){
+        supplierRepo.deleteById(Long.valueOf(id));
+    }
+
     public Branch findBranchByName(String branchName) {
         return branchRepo.findByName(branchName);
     }

@@ -95,8 +95,8 @@ public class ContractsController {
             @RequestParam String dateOfContract,
             @RequestParam Double sum,
             @RequestParam String dateOfExecutionContract,
-            @RequestParam String nameOfSupplier,
-            @RequestParam(defaultValue = "000") String innOfSupplier,
+            @RequestParam (defaultValue = "not") String nameOfSupplier,
+            @RequestParam String innOfSupplier,
             @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
             @RequestParam String additionalAgreement,
@@ -104,10 +104,10 @@ public class ContractsController {
             @RequestParam String f_i_o,
             @AuthenticationPrincipal User currentUser
     ) {
-        if (nameOfSupplier != null) {
-            Supplier bynameSupplier = supplierRepo.findBynameSupplier(nameOfSupplier);
-            if (bynameSupplier != null) {
-                contract.setSupplier(supplierRepo.findBynameSupplier(nameOfSupplier));
+        if (nameOfSupplier != null && innOfSupplier!=null) {
+            Supplier supplierByInn = supplierRepo.findByinn(innOfSupplier);
+            if (supplierByInn != null) {
+                contract.setSupplier(supplierByInn);
             } else {
                 Supplier supplier = new Supplier(innOfSupplier, nameOfSupplier);
                 contract.setSupplier(supplier);
@@ -154,8 +154,8 @@ public class ContractsController {
             @RequestParam String dateOfContract,
             @RequestParam Double sum,
             @RequestParam String dateOfExecutionContract,
-            @RequestParam String nameOfSupplier,
-            @RequestParam(defaultValue = "0") String innOfSupplier,
+            @RequestParam (defaultValue = "not") String nameOfSupplier,
+            @RequestParam String innOfSupplier,
             @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
             @RequestParam String additionalAgreement,
@@ -164,10 +164,12 @@ public class ContractsController {
             @AuthenticationPrincipal User currentUser
     ) {
         Contract newContract;
-        Supplier supplier;
-        if (typeOfPurchase != null && !innOfSupplier.isEmpty() && !nameOfSupplier.isEmpty() && typeOfCompany != null) {
-            supplier = new Supplier(innOfSupplier, nameOfSupplier);
-            supplierRepo.save(supplier);
+        if (typeOfPurchase != null && !innOfSupplier.isEmpty() && typeOfCompany != null) {
+            Supplier supplierByInn = supplierRepo.findByinn(innOfSupplier);
+            if (supplierByInn==null){
+                supplierByInn = new Supplier(innOfSupplier, nameOfSupplier);
+                supplierRepo.save(supplierByInn);
+            }
             newContract = new Contract(
                     currentUser.getBranch(),
                     nameOfContract,
@@ -177,7 +179,7 @@ public class ContractsController {
                     dateOfContract,
                     sum,
                     dateOfExecutionContract,
-                    supplier,
+                    supplierByInn,
                     typeOfCompany,
                     numberOfRegistryEntry,
                     additionalAgreement,

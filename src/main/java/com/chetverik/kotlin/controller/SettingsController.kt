@@ -161,4 +161,32 @@ open class SettingsController(
         excelService.exportContractsToExcel(response)
     }
 
+    @GetMapping("/supplier/{id}")
+    open fun editSupplierForm(
+        @PathVariable id: String,
+        model: Model,
+    ): String {
+        model.addAttribute("supplier", settingsService.getSupplierById(id))
+        return "editSupplier"
+    }
+
+    @PostMapping("/supplier")
+    open fun editSupplier(
+        @RequestParam(defaultValue = "not") nameSupplier: String,
+        @RequestParam(required = true) inn: String
+    ): String {
+        val supplierByInn = settingsService.getSupplierByInn(inn)
+        if (supplierByInn!=null){
+            supplierByInn.nameSupplier = nameSupplier
+            settingsService.saveSupplier(supplierByInn)
+        }
+        return "redirect:/settings"
+    }
+
+    @GetMapping("/supplier/dell/{id}")
+    open fun delSupplier(@PathVariable id: String): String {
+        settingsService.dellSupplier(id)
+        return "redirect:/settings"
+    }
+
 }
