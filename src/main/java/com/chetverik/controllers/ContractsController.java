@@ -13,6 +13,7 @@ import com.chetverik.repositories.TypeCompanyRepo;
 import com.chetverik.repositories.TypePurchaseRepo;
 import com.chetverik.service.ContractService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/contracts")
+@PreAuthorize("hasAuthority('MANAGER')")
 public class ContractsController {
     private ContractService contractService;
     private TypePurchaseRepo typePurchaseRepo;

@@ -8,6 +8,7 @@ import com.chetverik.domain.user.User
 import com.chetverik.repositories.TypePurchaseRepo
 import com.chetverik.repositories.UserRepo
 import com.chetverik.service.PurchaseService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,6 +18,7 @@ import kotlin.math.abs
 
 @Controller
 @RequestMapping("/purchase")
+@PreAuthorize("hasAuthority('MANAGER')")
 open class PurchaseController(
     private val purchaseService: PurchaseService,
     private val userRepo: UserRepo,

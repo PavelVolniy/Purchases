@@ -27,6 +27,7 @@
                 </i>
             {{/branches}}
         </div>
+        <div><input type="checkbox" name="block"><i>блокировка</i></div>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <button type="submit">save</button>
 
@@ -39,6 +40,7 @@
         <button type="submit">del</button>
     </form>
 
+    <div>user contracts</div>
     {{#contracts}}
         <div>{{.}}</div>
     {{/contracts}}

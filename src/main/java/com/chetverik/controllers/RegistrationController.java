@@ -21,6 +21,7 @@ public class RegistrationController {
     private BranchRepo branchRepo;
 
     @GetMapping("/registration")
+    @PreAuthorize("hasAuthority('SUPERUSER')")
     public String registration(Model model) {
         model.addAttribute("branches", branchRepo.findAll());
         model.addAttribute("roleList", Role.values());
@@ -66,27 +67,26 @@ public class RegistrationController {
         return "redirect:/main";
     }
 
-    @PostMapping("/del")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String deleteUser(
-            @RequestParam String username,
-            @RequestParam String password,
-            Model model
-    ) {
-        User user = new User();
-        User byUsername = userRepo.findByUsername(username);
-        if (byUsername != null) {
-            userRepo.delete(byUsername);
-            model.addAttribute("message", "user was delete");
-            return "redirect:/login";
-        }
-        return "registration";
-    }
+//    @PostMapping("/del")
+//    @PreAuthorize("hasAuthority('SUPERUSER')")
+//    public String deleteUser(
+//            @RequestParam String username,
+//            @RequestParam String password,
+//            Model model
+//    ) {
+//        User user = new User();
+//        User byUsername = userRepo.findByUsername(username);
+//        if (byUsername != null) {
+//            userRepo.delete(byUsername);
+//            model.addAttribute("message", "user was delete");
+//            return "redirect:/login";
+//        }
+//        return "registration";
+//    }
 
     @PostMapping("/logout")
     public String logOut(@RequestParam User user) {
         user.setActive(false);
-        System.out.println(user);
         userRepo.save(user);
         return "replace:/login";
     }

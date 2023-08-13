@@ -4,7 +4,6 @@ package com.chetverik.domain.user;
 import com.chetverik.domain.Branches;
 import com.chetverik.domain.contract.Contract;
 import com.chetverik.domain.entityes.Branch;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +22,7 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private boolean isBlock;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -36,10 +36,16 @@ public class User implements UserDetails {
 
     private boolean active = false;
 
+    public boolean isBlock() {
+        return isBlock;
+    }
+
+    public void setBlock(boolean block) {
+        isBlock = block;
+    }
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Contract> contracts;
-
-
 
     public Branch getBranch() {
         return branch;

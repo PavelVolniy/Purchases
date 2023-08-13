@@ -46,6 +46,7 @@ public class UserController {
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam(defaultValue = "not") String branch,
+            @RequestParam(required = false) Boolean block,
             @RequestParam("userId") User user
     ) {
         user.setUsername(username);
@@ -56,12 +57,19 @@ public class UserController {
 
         user.getRoles().clear();
         user.setBranch(branchRepo.findByName(branch));
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
+        if (block!=null){
+            user.setBlock(block);
+            user.setActive(false);
+        } else {
+            user.setBlock(false);
+        }
+        if (!user.isBlock()) {
+            for (String key : form.keySet()) {
+                if (roles.contains(key)) {
+                    user.getRoles().add(Role.valueOf(key));
+                }
             }
         }
-
         userRepo.save(user);
 
         return "redirect:/settings";

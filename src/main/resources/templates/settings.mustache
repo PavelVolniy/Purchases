@@ -52,6 +52,7 @@
             <th class="active"><b>active - </b>
                 <i>{{active}}</i>
             </th>
+            <th>блокировка - {{#isBlock}}да{{/isBlock}} {{^isBlock}}нет{{/isBlock}}</th>
             <td><a href="/user/{{id}}">edit</a></td>
         </tr>
     {{/userList}}
