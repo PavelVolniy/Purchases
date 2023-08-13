@@ -47,6 +47,9 @@ public class Contract {
     private String okdp2;
     private String f_i_o;
 
+    private String dateOfChange;
+    private String nameUserToChanged;
+
     @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -67,6 +70,8 @@ public class Contract {
                     String additionalAgreement,
                     String okdp2,
                     String f_i_o,
+                    String dateOfChange,
+                    String nameUserToChanged,
                     User user) {
         this.branch = branch;
         this.nameOfContract = nameOfContract;
@@ -82,6 +87,8 @@ public class Contract {
         this.additionalAgreement = additionalAgreement;
         this.okdp2 = okdp2;
         this.f_i_o = f_i_o;
+        this.dateOfChange = dateOfChange;
+        this.nameUserToChanged = nameUserToChanged;
         this.user = user;
     }
 

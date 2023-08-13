@@ -19,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -64,7 +66,7 @@ public class ContractsController {
     public String delContract(@PathVariable String id,
                               @AuthenticationPrincipal User currentUser) {
         User user = contractService.findContractById(Long.valueOf(id)).getUser();
-        if (user.equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)){
+        if (user.equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)) {
             if (id != null && !id.isEmpty()) {
                 Long contractId = Long.valueOf(id);
                 contractService.deleteContractById(contractId);
@@ -95,7 +97,7 @@ public class ContractsController {
             @RequestParam String dateOfContract,
             @RequestParam Double sum,
             @RequestParam String dateOfExecutionContract,
-            @RequestParam (defaultValue = "not") String nameOfSupplier,
+            @RequestParam(defaultValue = "not") String nameOfSupplier,
             @RequestParam String innOfSupplier,
             @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
@@ -104,7 +106,7 @@ public class ContractsController {
             @RequestParam String f_i_o,
             @AuthenticationPrincipal User currentUser
     ) {
-        if (nameOfSupplier != null && innOfSupplier!=null) {
+        if (nameOfSupplier != null && innOfSupplier != null) {
             Supplier supplierByInn = supplierRepo.findByinn(innOfSupplier);
             if (supplierByInn != null) {
                 contract.setSupplier(supplierByInn);
@@ -126,7 +128,9 @@ public class ContractsController {
         contract.setAdditionalAgreement(additionalAgreement);
         contract.setOkdp2(okdp2);
         contract.setF_i_o(f_i_o);
-        if (contract.getUser().equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)){
+        contract.setDateOfChange(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(new Date()));
+        contract.setNameUserToChanged(currentUser.getUsername());
+        if (contract.getUser().equals(currentUser) || currentUser.getRoles().contains(Role.ADMIN)) {
             contractService.saveContract(contract);
         }
         return "redirect:/contracts";
@@ -154,7 +158,7 @@ public class ContractsController {
             @RequestParam String dateOfContract,
             @RequestParam Double sum,
             @RequestParam String dateOfExecutionContract,
-            @RequestParam (defaultValue = "not") String nameOfSupplier,
+            @RequestParam(defaultValue = "not") String nameOfSupplier,
             @RequestParam String innOfSupplier,
             @RequestParam("typeOfCompany") TypeCompany typeOfCompany,
             @RequestParam String numberOfRegistryEntry,
@@ -166,7 +170,7 @@ public class ContractsController {
         Contract newContract;
         if (typeOfPurchase != null && !innOfSupplier.isEmpty() && typeOfCompany != null) {
             Supplier supplierByInn = supplierRepo.findByinn(innOfSupplier);
-            if (supplierByInn==null){
+            if (supplierByInn == null) {
                 supplierByInn = new Supplier(innOfSupplier, nameOfSupplier);
                 supplierRepo.save(supplierByInn);
             }
@@ -185,6 +189,8 @@ public class ContractsController {
                     additionalAgreement,
                     okdp2,
                     f_i_o,
+                    new SimpleDateFormat("dd-MM-yyyy HH:mm").format(new Date()),
+                    "non",
                     currentUser);
             contractService.saveContract(newContract);
         }
