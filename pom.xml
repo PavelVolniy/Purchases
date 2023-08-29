@@ -76,8 +76,26 @@
           <artifactId>lombok</artifactId>
         <optional>true</optional>
       </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <finalName>Purchases</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>8.5.13</version>
+        <configuration>
+          <user>root</user>
+          <password>mySql</password>
+          <schemas>
+            <schema>my_db</schema>
+          </schemas>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

@@ -1,9 +1,11 @@
 package com.chetverik.controllers;
 
+import com.chetverik.domain.entityes.Branch;
 import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
 import com.chetverik.repositories.BranchRepo;
 import com.chetverik.repositories.UserRepo;
+import com.chetverik.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -12,13 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
 public class RegistrationController {
     private UserRepo userRepo;
     private BranchRepo branchRepo;
+    private UserService userService;
 
     @GetMapping("/registration")
     @PreAuthorize("hasAuthority('SUPERUSER')")
@@ -34,20 +38,30 @@ public class RegistrationController {
             @RequestParam String username,
             @RequestParam String password,
             @RequestParam String branch,
+            @RequestParam Map<String, String> form,
             Model model
     ) {
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
         User user = new User();
-        User userFromDb = userRepo.findByUsername(username);
+        User userFromDb = userService.findUserByUsername(username);
         if (userFromDb != null && !userFromDb.getUsername().isEmpty()) {
             model.addAttribute("message", "user is exists!");
             return "registration";
         }
         user.setUsername(username);
         user.setPassword(password);
-        user.setBranch(branchRepo.findByName(branch));
+        user.setBranch(userService.findBranchByName(branch));
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.MANAGER));
-        userRepo.save(user);
+        Set<Role> userRoles = new TreeSet<>();
+        for (String key : form.keySet()) {
+            if (roles.contains(key)) {
+                userRoles.add(Role.valueOf(key));
+            }
+        }
+        user.setRoles(userRoles);
+        userService.saveUser(user);
         return "redirect:/settings";
     }
 
@@ -57,39 +71,32 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    public String logInViewTest(@RequestParam String username, @RequestParam String password, Model model) {
-        User byUsername = userRepo.findByUsername(username);
+    public String logInViewTest(@RequestParam String username,
+                                @RequestParam String password,
+                                Model model) {
+        User byUsername = userService.findUserByUsername(username);
         if (byUsername != null && !username.isEmpty()) {
             byUsername.setActive(true);
         }
-        userRepo.save(byUsername);
+        userService.saveUser(byUsername);
         model.addAttribute("username", byUsername.getUsername());
         return "redirect:/main";
     }
 
-//    @PostMapping("/del")
-//    @PreAuthorize("hasAuthority('SUPERUSER')")
-//    public String deleteUser(
-//            @RequestParam String username,
-//            @RequestParam String password,
-//            Model model
-//    ) {
-//        User user = new User();
-//        User byUsername = userRepo.findByUsername(username);
-//        if (byUsername != null) {
-//            userRepo.delete(byUsername);
-//            model.addAttribute("message", "user was delete");
-//            return "redirect:/login";
-//        }
-//        return "registration";
-//    }
-
     @PostMapping("/logout")
     public String logOut(@RequestParam User user) {
         user.setActive(false);
-        userRepo.save(user);
+        userService.saveUser(user);
         return "replace:/login";
     }
 
+    @GetMapping("/reg")
+    public String regSuperUser() {
+        userService.saveBranch(new Branch("MANAGER"));
+        userService.saveBranch(new Branch("ADMIN"));
+        User user = new User("q", "q", Collections.singleton(Role.ADMIN), (Branch) branchRepo.findAll(), true);
+        userService.saveUser(user);
+        return "replace:/login";
+    }
 
 }
