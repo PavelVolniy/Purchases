@@ -99,4 +99,20 @@ public class ContractService {
                 sumMore,
                 sumLess);
     }
+
+    public Iterable<TypeOfPurchase> findAllTypesPurchases() {
+        return typePurchaseRepo.findAll();
+    }
+
+    public Iterable<TypeCompany> findAllTypesCompany() {
+        return typeCompanyRepo.findAll();
+    }
+
+    public Supplier findSupplierByinn(String innOfSupplier) {
+        return supplierRepo.findByinn(innOfSupplier);
+    }
+
+    public void saveSupplier(Supplier supplier) {
+        supplierRepo.save(supplier);
+    }
 }

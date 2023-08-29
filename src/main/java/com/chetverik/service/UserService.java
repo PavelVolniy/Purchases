@@ -40,4 +40,8 @@ public class UserService implements UserDetailsService {
     public void saveBranch(Branch branch) {
         branchRepo.save(branch);
     }
+
+    public Iterable<Branch> findAllBranches() {
+        return branchRepo.findAll();
+    }
 }

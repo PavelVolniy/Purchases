@@ -29,9 +29,6 @@ import java.util.List;
 @PreAuthorize("hasAuthority('MANAGER')")
 public class ContractsController {
     private ContractService contractService;
-    private TypePurchaseRepo typePurchaseRepo;
-    private SupplierRepo supplierRepo;
-    private TypeCompanyRepo typeCompanyRepo;
 
     @GetMapping()
     public String getContractsList(Model model) {
@@ -107,13 +104,13 @@ public class ContractsController {
             @AuthenticationPrincipal User currentUser
     ) {
         if (nameOfSupplier != null && innOfSupplier != null) {
-            Supplier supplierByInn = supplierRepo.findByinn(innOfSupplier);
+            Supplier supplierByInn = contractService.findSupplierByinn(innOfSupplier);
             if (supplierByInn != null) {
                 contract.setSupplier(supplierByInn);
             } else {
                 Supplier supplier = new Supplier(innOfSupplier, nameOfSupplier);
                 contract.setSupplier(supplier);
-                supplierRepo.save(supplier);
+                contractService.saveSupplier(supplier);
             }
         }
         contract.setNameOfContract(nameOfContract);
@@ -144,8 +141,8 @@ public class ContractsController {
         model.addAttribute("names", ContractFieldNames.getContractNames());
         model.addAttribute("contractList", ContractFieldNames.getContractNames());
         model.addAttribute("branch", currentUser.getBranch());
-        model.addAttribute("types", typePurchaseRepo.findAll());
-        model.addAttribute("typesCompany", typeCompanyRepo.findAll());
+        model.addAttribute("types", contractService.findAllTypesPurchases());
+        model.addAttribute("typesCompany", contractService.findAllTypesCompany());
         return "addContract";
     }
 
@@ -169,10 +166,10 @@ public class ContractsController {
     ) {
         Contract newContract;
         if (typeOfPurchase != null && !innOfSupplier.isEmpty() && typeOfCompany != null) {
-            Supplier supplierByInn = supplierRepo.findByinn(innOfSupplier);
+            Supplier supplierByInn = contractService.findSupplierByinn(innOfSupplier);
             if (supplierByInn == null) {
                 supplierByInn = new Supplier(innOfSupplier, nameOfSupplier);
-                supplierRepo.save(supplierByInn);
+                contractService.saveSupplier(supplierByInn);
             }
             newContract = new Contract(
                     currentUser.getBranch(),

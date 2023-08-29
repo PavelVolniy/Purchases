@@ -3,8 +3,6 @@ package com.chetverik.controllers;
 import com.chetverik.domain.entityes.Branch;
 import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
-import com.chetverik.repositories.BranchRepo;
-import com.chetverik.repositories.UserRepo;
 import com.chetverik.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,14 +18,12 @@ import java.util.stream.Collectors;
 @Controller
 @AllArgsConstructor
 public class RegistrationController {
-    private UserRepo userRepo;
-    private BranchRepo branchRepo;
     private UserService userService;
 
     @GetMapping("/registration")
     @PreAuthorize("hasAuthority('SUPERUSER')")
     public String registration(Model model) {
-        model.addAttribute("branches", branchRepo.findAll());
+        model.addAttribute("branches", userService.findAllBranches());
         model.addAttribute("roleList", Role.values());
         return "registration";
     }
@@ -94,7 +90,7 @@ public class RegistrationController {
     public String regSuperUser() {
         userService.saveBranch(new Branch("MANAGER"));
         userService.saveBranch(new Branch("ADMIN"));
-        User user = new User("q", "q", Collections.singleton(Role.ADMIN), (Branch) branchRepo.findAll(), true);
+        User user = new User("q", "q", Collections.singleton(Role.ADMIN), (Branch) userService.findAllBranches(), true);
         userService.saveUser(user);
         return "replace:/login";
     }
