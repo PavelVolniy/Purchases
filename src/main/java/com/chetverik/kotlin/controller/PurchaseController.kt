@@ -6,7 +6,6 @@ import com.chetverik.domain.purchase.PurchaseFieldNames
 import com.chetverik.domain.user.Role
 import com.chetverik.domain.user.User
 import com.chetverik.repositories.TypePurchaseRepo
-import com.chetverik.repositories.UserRepo
 import com.chetverik.service.PurchaseService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -21,7 +20,6 @@ import kotlin.math.abs
 @PreAuthorize("hasAuthority('MANAGER')")
 open class PurchaseController(
     private val purchaseService: PurchaseService,
-    private val userRepo: UserRepo,
     private val typeOfPurchaseRepo: TypePurchaseRepo,
 ) {
 
@@ -162,7 +160,7 @@ open class PurchaseController(
             priceOfContract,
             economy,
             numberOfProcedureOnEIS,
-            userRepo.findByUsername(currentUser.username)
+            purchaseService.findUserByUsername(currentUser.username)
         )
         purchaseService.savePurchase(newPurchase)
         return "redirect:/purchase"

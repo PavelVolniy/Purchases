@@ -6,7 +6,6 @@ import com.chetverik.domain.entityes.Branch;
 import com.chetverik.domain.entityes.Supplier;
 import com.chetverik.domain.entityes.TypeCompany;
 import com.chetverik.domain.entityes.TypeOfPurchase;
-import com.chetverik.domain.purchase.Purchase;
 import com.chetverik.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class ContractService {
         return contractRepo.findFirstById(id);
     }
 
-    public List<Branch> getBranchList(){
+    public List<Branch> getBranchList() {
         return (List<Branch>) branchRepo.findAll();
     }
 
@@ -45,14 +44,6 @@ public class ContractService {
 
     public void deleteContractById(Long id) {
         contractRepo.deleteById(id);
-    }
-
-    public Purchase findPurchaseById(Long id) {
-        return purchaseRepo.findById(id).get();
-    }
-
-    public Contract getContractByName(String contractName) {
-        return contractRepo.findByNameOfContract(contractName);
     }
 
     public void saveContract(Contract contract) {

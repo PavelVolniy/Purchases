@@ -2,9 +2,12 @@ package com.chetverik.service;
 
 import com.chetverik.domain.entityes.TypeOfPurchase;
 import com.chetverik.domain.purchase.Purchase;
+import com.chetverik.domain.user.User;
 import com.chetverik.repositories.PurchaseRepo;
 import com.chetverik.repositories.TypePurchaseRepo;
+import com.chetverik.repositories.UserRepo;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 public class PurchaseService {
     private PurchaseRepo purchaseRepo;
     private TypePurchaseRepo typePurchaseRepo;
+    private UserRepo userRepo;
 
     public Purchase findById(Long id){
             return purchaseRepo.findById(id).get();
@@ -41,5 +45,13 @@ public class PurchaseService {
         if (purchase!=null){
             purchaseRepo.save(purchase);
         }
+    }
+
+    public Purchase findPurchaseById(Long purchaseId) {
+        return purchaseRepo.findById(purchaseId).get();
+    }
+
+    public User findUserByUsername(String username) {
+        return userRepo.findByUsername(username);
     }
 }

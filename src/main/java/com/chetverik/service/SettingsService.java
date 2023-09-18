@@ -40,23 +40,20 @@ public class SettingsService {
         return supplierRepo.findAll();
     }
 
-    public Supplier getSupplierByName(String nameSupplier){
-        return supplierRepo.findBynameSupplier(nameSupplier);
-    }
 
-    public Supplier getSupplierByInn(String inn){
+    public Supplier getSupplierByInn(String inn) {
         return supplierRepo.findByinn(inn);
     }
 
-    public Supplier getSupplierById(String id){
+    public Supplier getSupplierById(String id) {
         return supplierRepo.findById(Long.valueOf(id)).get();
     }
 
-    public void saveSupplier(Supplier supplier){
+    public void saveSupplier(Supplier supplier) {
         supplierRepo.save(supplier);
     }
 
-    public void dellSupplier(String id){
+    public void dellSupplier(String id) {
         supplierRepo.deleteById(Long.valueOf(id));
     }
 

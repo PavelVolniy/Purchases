@@ -8,10 +8,8 @@ import com.chetverik.domain.entityes.TypeOfPurchase;
 import com.chetverik.domain.purchase.Purchase;
 import com.chetverik.domain.user.Role;
 import com.chetverik.domain.user.User;
-import com.chetverik.repositories.SupplierRepo;
-import com.chetverik.repositories.TypeCompanyRepo;
-import com.chetverik.repositories.TypePurchaseRepo;
 import com.chetverik.service.ContractService;
+import com.chetverik.service.PurchaseService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,6 +27,7 @@ import java.util.List;
 @PreAuthorize("hasAuthority('MANAGER')")
 public class ContractsController {
     private ContractService contractService;
+    private PurchaseService purchaseService;
 
     @GetMapping()
     public String getContractsList(Model model) {
@@ -77,7 +76,7 @@ public class ContractsController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable String id, Model model) {
         Long purchaseId = Long.valueOf(id);
-        Purchase purchaseById = contractService.findPurchaseById(purchaseId);
+        Purchase purchaseById = purchaseService.findPurchaseById(purchaseId);
         model.addAttribute("purchase", purchaseById);
         model.addAttribute("branch", currentUser.getBranch());
         model.addAttribute("typesCompany", contractService.getTypesCompanyList());
