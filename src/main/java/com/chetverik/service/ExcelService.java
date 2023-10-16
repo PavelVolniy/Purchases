@@ -3,6 +3,7 @@ package com.chetverik.service;
 import com.chetverik.domain.contract.Contract;
 import com.chetverik.domain.purchase.Purchase;
 import com.chetverik.excelpoi.ExcelExportUtil;
+import com.chetverik.excelpoi.ExcelImportUtil;
 import com.chetverik.repositories.ContractRepo;
 import com.chetverik.repositories.PurchaseRepo;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,9 @@ public class ExcelService {
         ExcelExportUtil excelUtil = new ExcelExportUtil(contracts, purchases);
         excelUtil.exportDataToExcel(response, "Contracts", "Purchases");
         return contracts;
+    }
+
+    public void testImportFromExcel(){
+        ExcelImportUtil importUtil = new ExcelImportUtil("C:/Users/user/Downloads/Contracts_Tue Oct 17 00_04_59 GMT+03_00 2023.xls");
     }
 }

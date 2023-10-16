@@ -102,7 +102,7 @@ public class ExcelExportUtil {
         font.setFontHeightInPoints(heightFont);
         style.setFont(font);
 
-        for (Purchase item :purchaseList) {
+        for (Purchase item : purchaseList) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
             createCell(row, columnCount++, item.getBranch().getName(), style);
@@ -138,11 +138,10 @@ public class ExcelExportUtil {
                 PurchaseFieldNames.getContractNames().length,
                 PurchaseFieldNames.getContractNames());
         writePurchaseData((short) 12);
-        
+
         ServletOutputStream outputStream = response.getOutputStream();
         wb.write(outputStream);
         wb.close();
         outputStream.close();
     }
-
 }

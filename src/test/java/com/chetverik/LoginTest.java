@@ -1,6 +1,5 @@
 package com.chetverik;
 
-import com.chetverik.controllers.ContractsController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LoginTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    ContractsController controller;
 
     @Test
     public void loginLoads() throws Exception {

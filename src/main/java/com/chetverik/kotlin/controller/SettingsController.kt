@@ -159,6 +159,7 @@ open class SettingsController(
         val headerValue = "attachment; filename=Contracts_${Date()}.xls"
         response.setHeader(headerKey, headerValue)
         excelService.exportContractsToExcel(response)
+        excelService.testImportFromExcel()
     }
 
     @GetMapping("/supplier/{id}")
