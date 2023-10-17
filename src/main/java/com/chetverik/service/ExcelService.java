@@ -28,6 +28,7 @@ public class ExcelService {
     }
 
     public void testImportFromExcel(){
-        ExcelImportUtil importUtil = new ExcelImportUtil("C:/Users/user/Downloads/Contracts_Tue Oct 17 00_04_59 GMT+03_00 2023.xls");
+        ExcelImportUtil importUtil = new ExcelImportUtil("C:/Users/user/Downloads/Contracts_Wed Oct 18 00_11_10 GMT+03_00 2023.xls");
+        System.out.println(importUtil.getContractListString());
     }
 }

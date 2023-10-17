@@ -153,13 +153,18 @@ open class SettingsController(
     }
 
     @GetMapping("/exportTables")
-    open fun exportTablesPurchase(response: HttpServletResponse) {
+    open fun exportTablesToExcel(response: HttpServletResponse) {
         response.contentType = "application/octet-stream"
         val headerKey = "Content-Disposition"
         val headerValue = "attachment; filename=Contracts_${Date()}.xls"
         response.setHeader(headerKey, headerValue)
         excelService.exportContractsToExcel(response)
+
+    }
+    @GetMapping("/importTables")
+    open fun importTablesFromExcel(): String {
         excelService.testImportFromExcel()
+        return "redirect:/settings"
     }
 
     @GetMapping("/supplier/{id}")
